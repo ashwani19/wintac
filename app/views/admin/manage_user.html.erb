@@ -17,7 +17,7 @@
  	<%@user.each_with_index do |user,index|%>
 <%if user.user_type!='admin'%>
 <tr id="<%=user.id%>"<%if index.zero?%> class="info" <%elsif !(index).odd?%> class="active"<%else%>class="info" <%end%>>
-	<td><%if index.zero?%>1<%else%><%=index%><%end%> <input type="checkbox" name="checkbox-<%=user.id%>" id="checkbox-<%=user.id%>" /></td>
+	<td><%if index.zero?%>1<%else%><%=index%><%end%> <input type="checkbox" name="user[]" id="checkbox-<%=user.id%>" value="<%=user.id%>" /></td>
 	<td><%=user.full_name%></td>
 	<%if user.is_customer%>
 	<td><%=user.customers.first.address1%></td>
@@ -58,4 +58,9 @@ $('#select-all').click(function(event) {
         });
     }
 });
+
+function delete_users()
+{
+
+}
 </script>
