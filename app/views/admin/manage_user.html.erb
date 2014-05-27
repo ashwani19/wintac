@@ -1,8 +1,9 @@
-<p><h2>All Users</h2><span class="text-right"><%= link_to "+ Add User", sign_up_path ,:class=>"btn btn-primary"%></span>&nbsp;&nbsp;<span class="text-right"><%= link_to "+ Add Role", admin_path ,:class=>"btn btn-primary"%></span>&nbsp;&nbsp;<span class="text-right"><%= link_to "View And Edit Roles", admin_role_list_path ,:class=>"btn btn-primary"%></span></p>
+<p><h2>All Users</h2><div class="text-left"><a href="#" id="delete_all" class="btn btn-danger">Delete</a></div><div class="text-right"><%= link_to "+ Add User", sign_up_path ,:class=>"btn btn-primary"%>&nbsp;&nbsp;<%= link_to "+ Add Role", admin_path ,:class=>"btn btn-primary"%></div></p>
 
 <table class="table table-bordered table-hover">
  <thead>
 <tr>
+<th>Sr.No <input type="checkbox" name="checkbox" id="select-all" /></th>
 <th>Name</th>
 <th>Address</th>
 <th>Type</th>
@@ -16,6 +17,7 @@
  	<%@user.each_with_index do |user,index|%>
 <%if user.user_type!='admin'%>
 <tr id="<%=user.id%>"<%if index.zero?%> class="info" <%elsif !(index).odd?%> class="active"<%else%>class="info" <%end%>>
+	<td><%if index.zero?%>1<%else%><%=index%><%end%> <input type="checkbox" name="checkbox-<%=user.id%>" id="checkbox-<%=user.id%>" /></td>
 	<td><%=user.full_name%></td>
 	<%if user.is_customer%>
 	<td><%=user.customers.first.address1%></td>
@@ -42,5 +44,18 @@ $.ajax({type: "get",url: "/admin/delete_user",data: {'user_id' : user_id },succe
 });
 }
 
-
+$('#select-all').click(function(event) {   
+    if(this.checked) {
+        // Iterate each checkbox
+        $(':checkbox').each(function() {
+            this.checked = true;                        
+        });
+    }
+    else
+    {
+    	$(':checkbox').each(function() {
+            this.checked = false;                        
+        });
+    }
+});
 </script>

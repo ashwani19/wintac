@@ -11,7 +11,7 @@ def create
       cookies[:auth_token] = user.auth_token
     end
     if user.user_type=='admin'
-       redirect_to admin_manage_user_path , :notice => "Logged in!"
+       redirect_to admin_admin_home_path , :notice => "Logged in!"
     elsif user.user_type=='customer'
        redirect_to customers_customer_home_path, :notice => "Logged in!"  
     else
