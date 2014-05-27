@@ -29,6 +29,7 @@ GEM
       i18n (~> 0.6)
       multi_json (~> 1.0)
     arel (3.0.3)
+    bcrypt-ruby (2.1.4)
     bcrypt-ruby (2.1.4-x86-mingw32)
     best_in_place (2.1.0)
       jquery-rails
@@ -103,6 +104,9 @@ GEM
     uglifier (2.5.0)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
+    will_paginate (3.0.5)
+    will_paginate-bootstrap (1.0.0)
+      will_paginate (>= 3.0.3)
 
 PLATFORMS
   x86-mingw32
@@ -117,3 +121,4 @@ DEPENDENCIES
   rolify
   sass-rails (~> 3.2.3)
   uglifier (>= 1.0.3)
+  will_paginate-bootstrap

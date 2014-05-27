@@ -1,8 +1,10 @@
+require 'will_paginate/array'
 class AdminController < ApplicationController
  #Manage user ui page action
   def manage_user
   	if !current_user.nil? && current_user.user_type=="admin"
-      	@user=User.where(:is_active=>true).order('id ASC')
+      	@users=User.where(:is_active=>true).order('id ASC')
+        @user=@users.paginate(:page => params[:page], :per_page => 5)
     else
     	redirect_to root_url
    end
@@ -110,7 +112,8 @@ end
   end
   end
   def role_list
-   @roles=AddRole.all(order: 'id ASC') 
+   @role=AddRole.all(order: 'id ASC') 
+   @roles=@role.paginate(:page => params[:page], :per_page => 3)
    if !params[:add_role_id].blank?
     @add_role=AddRole.find(params[:add_role_id])
     if !@add_role.manage_resources.blank?

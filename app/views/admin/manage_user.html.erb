@@ -34,7 +34,9 @@
 <%end%>
  </tbody>
 </table>
+<div class="text-right"><%= will_paginate @user, renderer: BootstrapPagination::Rails %></div>
 </form>
+
 <script type="text/javascript">
 function edit_user(user_id){
 	
