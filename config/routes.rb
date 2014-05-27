@@ -1,6 +1,7 @@
 IntacWebPortal::Application.routes.draw do
   get "home/home"
   get "admin/admin_home"
+  post "admin/delete_users"
   post "admin/update_role"
   get "/admin/edit_role"
   post "admin/create_role"
@@ -38,7 +39,7 @@ resources :sessions
 resources :password_resets
 resources :customers
 resources :employees
-resources :admin
+#resources :admin
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

@@ -1,5 +1,6 @@
-<p><h2>All Users</h2><div class="text-left"><a href="#" id="delete_all" class="btn btn-danger">Delete</a></div><div class="text-right"><%= link_to "+ Add User", sign_up_path ,:class=>"btn btn-primary"%>&nbsp;&nbsp;<%= link_to "+ Add Role", admin_path ,:class=>"btn btn-primary"%></div></p>
-
+<p><h2>All Users</h2><div class="text-right"><%= link_to "+ Add User", sign_up_path ,:class=>"btn btn-primary"%>&nbsp;&nbsp;<%= link_to "+ Add Role", admin_path ,:class=>"btn btn-primary"%></div></p>
+<form action="/admin/delete_users" method="post">
+<div class="text-left dlt-btn"><input type="submit" value="Delete" class="btn btn-danger"/></div>
 <table class="table table-bordered table-hover">
  <thead>
 <tr>
@@ -15,9 +16,9 @@
  <tbody>
  	<%if !@user.nil?%>
  	<%@user.each_with_index do |user,index|%>
-<%if user.user_type!='admin'%>
+<%if !user.is_admin%>
 <tr id="<%=user.id%>"<%if index.zero?%> class="info" <%elsif !(index).odd?%> class="active"<%else%>class="info" <%end%>>
-	<td><%if index.zero?%>1<%else%><%=index%><%end%> <input type="checkbox" name="user[]" id="checkbox-<%=user.id%>" value="<%=user.id%>" /></td>
+	<td><%if index.zero?%>1<%else%><%=index%><%end%> <input type="checkbox" name="users[]" id="checkbox-<%=user.id%>" value="<%=user.id%>" /></td>
 	<td><%=user.full_name%></td>
 	<%if user.is_customer%>
 	<td><%=user.customers.first.address1%></td>
@@ -34,6 +35,7 @@
 <%end%>
  </tbody>
 </table>
+</form>
 <script type="text/javascript">
 function delete_user(user_id){
 	
@@ -59,8 +61,5 @@ $('#select-all').click(function(event) {
     }
 });
 
-function delete_users()
-{
 
-}
 </script>

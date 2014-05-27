@@ -1,7 +1,32 @@
+<p><div class="text-right"><%= link_to "+ Add Role", admin_path ,:class=>"btn btn-primary"%></div></p>
 <%if !@roles.nil?%>
-<%@roles.each_with_index do |role,index|%>
-<a href="#" onclick="view_role(<%=role.id%>)" class="btn btn-primary"><%=role.name%></a><br/><br/>
-<%end%>
+
+<table class="table table-bordered table-hover">
+	<thead>
+  <tr>
+  <th>Sr.No</th>
+  <th>Name</th>
+  <th>Role Description</th>
+  <th>Created Date</th>
+  <th>Edit</th>
+  </tr>
+	</thead>
+	
+<tbody>
+   <%@roles.to_enum.with_index(1).each do |role,index|%>
+  	<tr <%if index.zero?%> class="info" <%elsif (index).odd?%> class="active"<%else%>class="info" <%end%>>
+ 		<td><%if index.zero?%>1<%else%><%=index%><%end%></td>
+ 		<td><%=role.name.capitalize%></td>
+ 		<td><%=role.role_desc.capitalize%></td>
+ 		<td><%=role.created_at.to_date%></td>
+ 		<td><a href="#" onclick="view_role(<%=role.id%>)" class="btn btn-primary">Edit</a></td>
+  </tr>
+  <%end%>
+</tbody>
+	
+</table>
+
+
 <%end%>
 <script type="text/javascript">
 function view_role(id)

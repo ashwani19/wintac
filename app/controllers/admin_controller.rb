@@ -2,7 +2,7 @@ class AdminController < ApplicationController
  #Manage user ui page action
   def manage_user
   	if !current_user.nil? && current_user.user_type=="admin"
-      	@user=User.where(:is_active=>true)
+      	@user=User.where(:is_active=>true).order('id ASC')
     else
     	redirect_to root_url
    end
@@ -61,6 +61,14 @@ end
    end
  end
  #End depricated method
+ 
+ def delete_users
+      users = params[:users]
+        if !users.blank?
+         users.each{|i| User.find(i).update_attribute(:is_active,false) }
+        end
+        redirect_to admin_manage_user_path,:notice => "User Deleted Successfully!"
+  end
  #show user delete popup
  def delete_user
   if !params[:user_id].blank?
@@ -92,12 +100,12 @@ end
         if !resource.blank?
          resource.each{|i| @resource=ManageResource.create(:add_role_id=>@role.id,:resource_id=>i) }
         end
-        redirect_to admin_manage_user_path,:notice => "Update Successfully "
+        redirect_to admin_role_list_path,:notice => "Update Successfully "
       end
   end
   end
   def role_list
-   @roles=AddRole.all 
+   @roles=AddRole.all(order: 'id ASC') 
    if !params[:add_role_id].blank?
     @add_role=AddRole.find(params[:add_role_id])
     if !@add_role.manage_resources.blank?
