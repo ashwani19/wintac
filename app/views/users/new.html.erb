@@ -1,0 +1,50 @@
+
+<div class="form">
+  <fieldset class="scheduler-border">
+    <legend class="scheduler-border"><h1>Sign Up</h1></legend>
+<%= form_for @user do |f| %>
+  <% if @user.errors.any? %>
+    <div class="error_messages">
+      <h2>Form is invalid</h2>
+      <ul>
+        <% for message in @user.errors.full_messages %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  
+  <p>
+    <label>Select User type</label><br/>
+    
+    <select name="role" class="form-control">
+      <%AddRole.all.each do |role|%>
+      <option value="<%=role.name%>"><%=role.name.capitalize%></option>
+      <%end%>
+    </select>
+  </p>
+  <p>
+    <%= f.label :first_name %><br />
+    <%= f.text_field :first_name, :class=>"form-control"%>
+  </p>
+  <p>
+    <%= f.label :last_name %><br />
+    <%= f.text_field :last_name,:class=>"form-control" %>
+  </p>
+
+  <p>
+    <%= f.label :email %><br />
+    <%= f.text_field :email,:class=>"form-control" %>
+  </p>
+  <p>
+    <%= f.label :password %><br />
+    <%= f.password_field :password,:class=>"form-control" %>
+  </p>
+  <p>
+    <%= f.label :password_confirmation %><br />
+    <%= f.password_field :password_confirmation,:class=>"form-control" %>
+  </p>
+  <p class="button"><%= f.submit 'Sign up',:class=>'btn btn-primary'%></p>
+<% end %>
+</fieldset>
+</div>

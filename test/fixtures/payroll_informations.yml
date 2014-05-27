@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  employee_id: 1
+  hired_date: 2014-05-22
+  raise_date: 2014-05-22
+  termin_date: 2014-05-22
+  raise_amount: 9.99
+  notes: MyText
+
+two:
+  employee_id: 1
+  hired_date: 2014-05-22
+  raise_date: 2014-05-22
+  termin_date: 2014-05-22
+  raise_amount: 9.99
+  notes: MyText

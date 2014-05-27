@@ -1,0 +1,146 @@
+<body>
+    <!--  wrapper -->
+    <div id="wrapper">
+        <!-- navbar top -->
+        
+        <!-- end navbar side -->
+        <!--  page-wrapper -->
+          <div id="page-wrapper">
+            <div class="row">
+                 <!-- page header -->
+                <div class="col-lg-12">
+                    <h1 class="page-header">Profile For <%=current_user.full_name%></h1>
+                </div>
+                <!--end page header -->
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <!-- Form Elements -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Please update your information to proceed..
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <form action="<%=employees_update_row_path%>" method="post">
+                                        <div class="form-group">
+                                            <label>Last Name</label>
+                                                <input class="form-control"  name="last_name" placeholder="First Name">
+                                            </div>
+                                            <div class="form-group">
+                                            <label>Address</label>
+                                            <textarea class="form-control" name="address" rows="3"></textarea>
+                                            
+                                        </div>
+                                            <div class="form-group">
+                                            <label>City</label>
+                                            <input class="form-control" name="city" placeholder="Enter text">
+                                            </div>
+                                            <div class="form-group">
+                                            <label>State</label>
+                                            <input class="form-control" name="state" placeholder="Enter text">
+                                            </div>
+                                            <div class="form-group">
+                                            <label>Zip</label>
+                                            <input class="form-control" name="zip" placeholder="Enter text">
+                                                
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Date Of Birth(MM/DD/YYYY)</label>
+                                        
+                                        <div class='input-group date' id='datetimepicker1'>
+                                            <input type='text' class="form-control" name="dob" />
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
+                                            </span>
+                                      </div>
+                                  </div>
+                                   
+                                        
+                                        
+                                        <div class="form-group">
+                                            <label>Ref.Code</label>
+                                            <select class="form-control" name="ref_code">
+                                                <option value="BAD DEBT">BAD DEBT</option>
+                                                <option value="COMMERCIAL">COMMERCIAL</option>
+                                                <option value="CONTRACT">CONTRACT</option>
+                                                <option value="CUSTOMER">CUSTOMER</option>
+                                                <option value="HOME REPAIR">HOME REPAIR</option>
+                                                <option value="LEAD">LEAD</option>
+                                                <option value="PAYEE">PAYEE</option>
+                                                <option value="PREV.MAINT.">PREV.MAINT.</option>
+                                                <option value="PROSPECT">PROSPECT</option>
+                                                <option value="SPECIAL">SPECIAL</option>
+                                                <option value="VENDOR">VENDOR</option>
+
+                                            </select>
+                                            
+                                        </div>
+                                        
+                                       
+                                    
+                                </div>
+                                <div class="col-lg-6">
+                                    
+                                    
+                                        <div class="form-group">
+                                            <label class="control-label" for="inputSuccess">First Name</label>
+                                            <input type="text" class="form-control" name="first_name" id="inputSuccess" value="<%=current_user.first_name%>">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label" for="inputSuccess">Mid Name</label>
+                                            <input type="text" class="form-control" name="mid_name" id="inputSuccess" value="<%=current_user.first_name%>">
+                                        </div>
+                                        <div class="form-group ">
+                                            <label class="control-label" for="inputWarning">Phone No-1</label>
+                                            <input type="text" class="form-control" name="phone" id="inputWarning">
+                                        </div>
+                                        <div class="form-group ">
+                                            <label class="control-label" for="inputError">Phone No-2</label>
+                                            <input type="text" name="phone_1" class="form-control" id="inputError">
+                                        </div>
+                                    
+                                    
+                                    
+                                        <div class="form-group">
+                                            <label for="disabledSelect">Email</label>
+                                                <input class="form-control" name="" id="disabledInput" type="text" value="<%=current_user.email%>" disabled>
+                                        </div>
+                                        <div class="form-group ">
+                                            <label class="control-label"  for="inputError">SS#</label>
+                                            <input type="text" name="ss_no" class="form-control">
+                                            
+                                        </div>
+                                        <div class="form-group ">
+                                            <label class="control-label"  for="inputError">County</label>
+                                            <input type="text" class="form-control" name="county" placeholder="Font Awesome Icon">
+                                        </div>
+                                        
+                                       <button type="submit" class="btn btn-primary">Submit Button</button>
+                                        <button type="reset" class="btn btn-success">Reset Button</button>    
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                     <!-- End Form Elements -->
+                </div>
+            </div>
+        </div>
+        <!-- end page-wrapper -->
+
+    </div>
+    <!-- end wrapper -->
+
+    <!-- Core Scripts - Include with every page -->
+    
+</body>
+
+<script type="text/javascript">
+            $(function () {
+                $('#datetimepicker1').datepicker(
+                  {
+                    format: 'dd/mm/yyyy'
+                });
+            });
+        </script>

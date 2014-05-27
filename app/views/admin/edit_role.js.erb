@@ -1,0 +1,6 @@
+$("div#myModal").html("<%= escape_javascript(render(:partial => "admin/edit_role")) %>");
+
+$("#myModal").modal({
+  backdrop: 'static',
+  keyboard: false
+});

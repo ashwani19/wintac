@@ -1,0 +1,78 @@
+
+
+
+
+
+<div id="user_nav" class="text-right">
+  <%if current_user.nil? or (!current_user.nil? and (current_user.is_customer or current_user.is_employee))%>
+	<img src="/assets/logo.jpg" class="text-left" />
+  <%end%>
+  <% if !current_user.nil? %>
+
+  <span class="text-success">  Logged in as <%if current_user.user_type=='admin' %> Admin <%= current_user.first_name %><%else%> <%= current_user.first_name %> <%end%></span>
+    <%= link_to "Log out", log_out_path ,:class=>"btn btn-primary"%>
+  <% else %>
+    <%= link_to "Sign up as Customer", sign_up_customer_path ,:class=>"btn btn-primary"%> &nbsp; <%= link_to "Sign up as Employee", sign_up_employee_path ,:class=>"btn btn-primary"%>
+    <%= link_to "Log In", log_in_path,:class=>"btn btn-primary" %>
+  <% end %>
+</div>
+
+<% flash.each do |name, msg| %>
+  <%= content_tag :div, msg, :id => "flash_#{name}" ,:class=>"bg-success"%>
+<% end %>
+<!--Compony Name -->
+<div>
+
+<br/>
+<% if !current_user.nil? and current_user.is_admin %>
+<nav class="navbar navbar-default" role="navigation">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/admin/admin_home">Admin</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li <%if params[:action]=='manage_user'%> class="active"<%end%>><a href="<%=admin_manage_user_path%>">User Management</a></li>
+        <li <%if params[:action]=='role_list'%> class="active"<%end%>><a href="/admin/role_list" >Role Management</a></li>
+        <li <%if params[:action]=='add_roles'%> class="active"<%end%>><%if params[:action]=='role_list' || params[:action]=='add_roles'%>
+          <a href="<%=admin_path%>">Create Role</a>
+          <%end%>
+        </li>
+      </ul>
+      <form class="navbar-form navbar-left" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#"><img src="/assets/logo.jpg" class="text-left" width="165" height="30"/></a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+          
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+<%end%>
+<% if !current_user.nil?%>
+<h2 class="text-center bg-primary user-name-bg">Wintac <br/>
+  <%if current_user.is_admin %> Admin <%=current_user.full_name%> 
+    <%elsif current_user.is_customer%>
+    <%=current_user.customers.last.company_name%>
+    <%else%>
+    <%=current_user.full_name%>
+  <%end%> </h2>
+<%end%>
+<hr/>
+</div>

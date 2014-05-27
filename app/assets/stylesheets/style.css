@@ -1,0 +1,52 @@
+.fieldset {
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+fieldset.scheduler-border {
+   border-radius: 8px;
+   background-color: #f5f5f5;
+    border: 1px groove #ddd !important;
+    padding: 0 1.4em 1.4em 1.4em !important;
+    margin: 0 0 1.5em 0 !important;
+    -webkit-box-shadow:  0px 0px 0px 0px #000;
+            box-shadow:  0px 0px 0px 0px #000;
+}
+
+legend.scheduler-border {
+    width:inherit; /* Or auto */
+    padding:0 10px; /* To give a bit of padding on the left and right */
+    border-bottom:none;
+    
+}
+.form
+{
+  width: 400px;
+  margin-left: 400px; 
+ /* background-color: #f5f5f5;*/
+  border-radius: 8px;
+}
+#flash_notice
+{
+  border-radius: 2px;
+  text-align: center;
+  font-size: 20px;
+}
+.form-role
+{
+
+  border-radius: 8px;
+  width: 70%;
+  margin-left: 200px; 
+  
+}
+.user-name-bg{
+  border-radius: 8px;
+
+}
+#loader
+{
+  position: absolute;
+  left: 571px;
+  top :327px;
+  z-index: 10001;
+}

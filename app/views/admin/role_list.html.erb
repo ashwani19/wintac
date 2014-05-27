@@ -1,0 +1,15 @@
+<%if !@roles.nil?%>
+<%@roles.each_with_index do |role,index|%>
+<a href="#" onclick="view_role(<%=role.id%>)" class="btn btn-primary"><%=role.name%></a><br/><br/>
+<%end%>
+<%end%>
+<script type="text/javascript">
+function view_role(id)
+{
+	$.ajax({type: "get",url: "/admin/role_list",data: {'add_role_id' : id},success:function(){
+  		$("#loader").hide();
+  		
+	}
+});
+}
+</script>

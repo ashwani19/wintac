@@ -1,0 +1,6 @@
+$("div#myModal").html("<%= escape_javascript(render(:partial => "customers/add_job")) %>");
+
+$("#myModal").modal({
+  backdrop: 'static',
+  keyboard: false
+});

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+  <title>IntacWebPortal</title>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+<div class="container">
+  <br/>
+<%=render :partial=>"/layouts/header"%>
+<%= yield %>
+ 
+</div><!-- contener div close-->
+</body>
+ 
+</html>
+<style type="text/css">
+.form
+{
+  width: 400px;
+  margin-left: 420px; 
+ 
+}
+#flash_notice
+{
+
+}
+</style>
+<script type="text/javascript">
+$("#flash_notice").fadeOut(5000);
+</script>
