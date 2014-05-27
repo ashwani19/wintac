@@ -1,19 +1,21 @@
 <div class="modal-dialog">
   <div class="modal-content">  
     <div class="modal-header">
-      <form id="modalFrm" action="" method="get" remote="true">
+      
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <div class="confirmation">          
-          <h3 class="text-center rgray">Delete User Popup</h3>
+          <h3 class="text-center rgray">Edit User Information</h3>
             <div class="text-left success-col wight-col-succ">                                                  
-              <h4 class=" text-danger">User Name : <%=@user.full_name%></h4>
-              <h4 class="text-danger">User Role : <%=@user.user_type%></h4> 
-              <h4 class="text-danger">User Email : <%=@user.email%></h4>
-              <a href="#"  onclick="delete_1(<%=@user.id%>)" class="btn btn-danger">Delete User</a>             
+              <%if @user.is_customer%>
+              <%=render 'customer_update'%>
+              <%else%>
+              <%=render 'employee_update'%>
+              <%end%>
+                          
                                           
           </div>
         </div>
-      </form>
+      
     </div>    
   </div>
 </div>

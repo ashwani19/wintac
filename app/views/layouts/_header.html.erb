@@ -38,10 +38,7 @@
       <ul class="nav navbar-nav">
         <li <%if params[:action]=='manage_user'%> class="active"<%end%>><a href="<%=admin_manage_user_path%>">User Management</a></li>
         <li <%if params[:action]=='role_list'%> class="active"<%end%>><a href="/admin/role_list" >Role Management</a></li>
-        <li <%if params[:action]=='add_roles'%> class="active"<%end%>><%if params[:action]=='role_list' || params[:action]=='add_roles'%>
-          <a href="<%=admin_path%>">Create Role</a>
-          <%end%>
-        </li>
+        
       </ul>
       <form class="navbar-form navbar-left" role="search">
         <div class="form-group">
@@ -69,5 +66,5 @@
     <%=current_user.full_name%>
   <%end%> </h2>
 <%end%>
-
+<hr/>
 </div>

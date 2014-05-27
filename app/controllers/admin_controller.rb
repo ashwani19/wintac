@@ -70,9 +70,14 @@ end
         redirect_to admin_manage_user_path,:notice => "User Deleted Successfully!"
   end
  #show user delete popup
- def delete_user
+ def update_user
   if !params[:user_id].blank?
    @user=User.find(params[:user_id])
+   if @user.is_customer
+   @customer=@user.customers.first
+ else
+   @employee=@user.employees.first
+ end
    respond_to do |format|
     format.js
     format.html
@@ -115,5 +120,32 @@ end
 
     render 'edit_role'
    end
+  end
+  def update_customer
+    @user=User.find(params[:user_id])
+      begin
+        @customer=@user.customers.first
+        @customer.update_attributes(address1: params[:address1],address2: nil, business:params[:business], city: params[:city], company_name:params[:company_name], county:params[:county], email_1: nil, name: params[:name], phone1:params[:phone1] , phone2:params[:phone2], salutation:params[:salutation], state:params[:state])
+        redirect_to admin_manage_user_path ,:notice=>"Update succesfully!"
+      rescue Exception => e
+        redirect_to admin_manage_user_path ,:notice=>"#{e.message}"
+      end
+  end
+  def update_employee
+    @user=User.find(params[:user_id])
+      begin
+        @employee=@user.employees.first
+        @employee.update_attributes(address: params[:address],zip:params[:zip],first_name:params[:first_name],ref_code:params[:ref_code], dob: nil,city: params[:city], last_name:params[:last_name], county:params[:county],mid_name: params[:mid_name], phone_1:params[:phone_1] , phone:params[:phone], ss_no:params[:ss_no], state:params[:state])
+         if !params[:dob].blank?
+          @employee.dob= params[:dob].to_date
+        end
+         @employee.save
+        current_user.first_name=params[:first_name]
+        current_user.last_name=params[:last_name]
+        current_user.save
+        redirect_to admin_manage_user_path ,:notice=>"Update succesfully!"
+      rescue Exception => e
+        redirect_to admin_manage_user_path ,:notice=>"#{e.message}"
+      end
   end
 end

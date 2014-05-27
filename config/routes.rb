@@ -1,6 +1,8 @@
 IntacWebPortal::Application.routes.draw do
   get "home/home"
   get "admin/admin_home"
+  post "admin/update_employee"
+  post "admin/update_customer"
   post "admin/delete_users"
   post "admin/update_role"
   get "/admin/edit_role"
@@ -11,7 +13,7 @@ IntacWebPortal::Application.routes.draw do
   get "employees/employee_home"
   post "employees/update_row"
   get "employees/employee_update"
-   get "/admin/delete_user"
+   get "/admin/update_user"
    get "/admin/inactive"
   get "customers/customer_home"
   post "customers/update_row"

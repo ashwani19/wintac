@@ -9,8 +9,7 @@
 <th>Address</th>
 <th>Type</th>
 <th>Create Time</th>
-<th>Roles</th>
-<th>Delete User</th>
+<th>Edit User</th>
 </tr>
  </thead>
  <tbody>
@@ -27,8 +26,8 @@
 	<%end%>
 	<td><%=user.user_type.capitalize%></td>
 	<td><%=user.created_at.to_date%></td>
-	<td>Role as <%=user.user_type.capitalize%></td>
-	<td><button class="btn btn-danger"  onclick="delete_user(<%=user.id%>)">Delete</button></td>
+	
+	<td><a class="btn btn-primary"  onclick="edit_user(<%=user.id%>)" href="#">Edit</a></td>
 </tr>
 <%end%>
 <%end%>
@@ -37,9 +36,9 @@
 </table>
 </form>
 <script type="text/javascript">
-function delete_user(user_id){
+function edit_user(user_id){
 	
-$.ajax({type: "get",url: "/admin/delete_user",data: {'user_id' : user_id },success:function(){
+$.ajax({type: "get",url: "/admin/update_user",data: {'user_id' : user_id },success:function(){
   $("#loader").hide();
     
   }
