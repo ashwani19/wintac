@@ -15,6 +15,8 @@ class CustomersController < ApplicationController
       begin
         @customer=@user.customers.first
         @customer.update_attributes(address1: params[:address1],address2: nil, business:params[:business], city: params[:city], company_name:params[:company_name], county:params[:county], email_1: nil, name: params[:name], phone1:params[:phone1] , phone2:params[:phone2], salutation:params[:salutation], state:params[:state])
+        @user.address=params[:address1]
+        @user.save
         redirect_to customers_customer_home_path ,:notice=>"Update succesfully!"
       rescue Exception => e
         redirect_to customers_customer_update_path ,:notice=>"#{e.message}"

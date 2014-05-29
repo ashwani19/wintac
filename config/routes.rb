@@ -21,6 +21,8 @@ IntacWebPortal::Application.routes.draw do
   get "customers/customer_profile"
   get "customers/add_job"
   get "admin/manage_user"
+  get "search/search_user"
+  get "search/search_role"
   #get "admin/add_roles"
   post "admin/create"
   match 'add_role' =>'admin#add_roles' ,:as=>'admin'

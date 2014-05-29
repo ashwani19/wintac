@@ -10,7 +10,11 @@ class EmployeesController < ApplicationController
       begin
         @employee=@user.employees.first
         @employee.update_attributes(address: params[:address],zip:params[:zip],first_name:params[:first_name],ref_code:params[:ref_code], dob: nil,city: params[:city], last_name:params[:last_name], county:params[:county],mid_name: params[:mid_name], phone_1:params[:phone_1] , phone:params[:phone], ss_no:params[:ss_no], state:params[:state])
-         @employee.dob= params[:dob].to_date
+         @user.address=params[:address]
+         @user.save
+         if !params[:dob].blank?
+          @employee.dob= params[:dob].to_date
+        end
          @employee.save
         current_user.first_name=params[:first_name]
         current_user.last_name=params[:last_name]

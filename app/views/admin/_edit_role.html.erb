@@ -32,18 +32,20 @@
   <legend class="scheduler-border">Add Resources</legend>
 
     <%if !@resource.nil?%>
+    <div class="row">
       <%@resource.each do |resource| %>
 
-      <div class="row">
-        <div class="col-md-12">
+      
+        <div class="col-md-6">
           <input type="checkbox" name="resource[]" value="<%=resource.id%>" <%if !@manage.nil?%><%@manage.each do |m|%><%if m.resource_id==resource.id%>checked <%end%><%end%><%end%>/>
         
         
-          <%= label_tag(:resource, resource.name) %>
+          <%= label_tag(:resource, resource.name,:class=>"label-role") %>
           </div>
-      </div>
+      
 
       <%end%>
+      </div>
     <%end%>
 
 

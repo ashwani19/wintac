@@ -1,0 +1,77 @@
+<%if !@user.blank?%>
+<form action="/admin/delete_users" method="post">
+<div class="text-left dlt-btn"><input type="submit" id="d" value="Deactivate" class="btn btn-warning"/></div>
+
+<table class="table table-bordered table-hover">
+ <thead>
+<tr class="bg-primary">
+<th> <input type="checkbox" name="checkbox" id="select-all" /> All</th>
+<th><span class="tr-cursor" onclick="searchD('name')">Name<b class="caret"></b></span></th>
+<th><span class="tr-cursor" onclick="searchD('address')">Address<b class="caret"></b></span></th>
+<th><span class="tr-cursor" onclick="searchD('role')">Type<b class="caret"></b></span></th>
+<th><span class="tr-cursor" onclick="searchD('date')">Created Date<b class="caret"></b></span></th>
+<th>Edit User</th>
+</tr>
+ </thead>
+ <tbody>
+ 	<%if !@user.nil?%>
+ 	<%@count=1%>
+ 	<%@user.to_enum.with_index(1).each do |user,index|%>
+<%if !user.is_admin%>
+
+    <tr id="<%=user.id%>"<%if !@count.odd?%> class="active"<%else%>class="info" <%end%>>
+	<td><input type="checkbox" name="users[]" id="checkbox-<%=user.id%>" value="<%=user.id%>" />  </td>
+    
+    <td><%=user.full_name%></td>
+    
+	<td><%=user.address%></td>
+	<td><%=user.user_type.capitalize%></td>
+	<td><%=user.created_at.to_date%></td>
+	
+	<td><a class="btn btn-info"  onclick="edit_user(<%=user.id%>)" href="#">Edit</a></td>
+
+</tr>
+<%@count+=1%>
+<%end%>
+<%end%>
+<%end%>
+ </tbody>
+</table>
+<input type="hidden" id="page_no" value="<%=params[:page]%>">
+<div class="text-right"><%= will_paginate @user , renderer: BootstrapPagination::Rails %></div>
+</form>
+<%else%>
+<table class="table table-bordered table-hover">
+ <thead>
+<tr class="bg-primary">
+<th>  All</th>
+<th><span >Name<b class="caret"></b></span></th>
+<th><span >Address<b class="caret"></b></span></th>
+<th><span >Type<b class="caret"></b></span></th>
+<th><span >Created Date<b class="caret"></b></span></th>
+<th>Edit User</th>
+</tr>
+ </thead>
+ </table>
+<h2 class="text-center text-success">No Record Found</h2>
+<%end%>
+<script type="text/javascript">
+$('#select-all').click(function(event) {   
+    if(this.checked) {
+        // Iterate each checkbox
+        $(':checkbox').each(function() {
+            this.checked = true;                        
+        });
+    }
+    else
+    {
+    	$(':checkbox').each(function() {
+            this.checked = false;                        
+        });
+    }
+});
+</script>
+<script type="text/javascript">
+$('.pagination a').attr('data-remote', 'true');
+$("#loader").hide();
+</script>

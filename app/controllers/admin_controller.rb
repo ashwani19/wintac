@@ -3,8 +3,8 @@ class AdminController < ApplicationController
  #Manage user ui page action
   def manage_user
   	if !current_user.nil? && current_user.user_type=="admin"
-      	@users=User.where(:is_active=>true).order('id ASC')
-        @user=@users.paginate(:page => params[:page], :per_page => 5)
+      	@user=User.paginate(:page => params[:page].blank? ? 1 : params[:page], :per_page => 5).order(:first_name,:last_name)
+        #@user=@users.paginate(:page => params[:page], :per_page => 5)
     else
     	redirect_to root_url
    end
@@ -66,10 +66,20 @@ end
  
  def delete_users
       users = params[:users]
-        if !users.blank?
-         users.each{|i| User.find(i).update_attribute(:is_active,false) }
+    if !users.blank?
+      msg=""
+      users.each do |u|
+        if User.find(u).is_active
+          msg="User Deactivate Successfully!"
+        else
+          msg="User Activate Successfully!"
         end
-        redirect_to admin_manage_user_path,:notice => "User Deleted Successfully!"
+
+       end
+        
+         users.each{|i|  User.find(i).is_active ? User.find(i).update_attribute(:is_active,false) : User.find(i).update_attribute(:is_active,true) }
+    end
+        redirect_to admin_manage_user_path,:notice => msg
   end
  #show user delete popup
  def update_user
@@ -125,20 +135,50 @@ end
    end
   end
   def update_customer
-    @user=User.find(params[:user_id])
+    @customers=User.find(params[:user_id])
+       active=params[:active].to_i
+          if active==1
+           active=true
+          else
+           active=false
+          end
       begin
-        @customer=@user.customers.first
+        @customer=@customers.customers.first
         @customer.update_attributes(address1: params[:address1],address2: nil, business:params[:business], city: params[:city], company_name:params[:company_name], county:params[:county], email_1: nil, name: params[:name], phone1:params[:phone1] , phone2:params[:phone2], salutation:params[:salutation], state:params[:state])
+        @customers.address=params[:address1]
+        #role=Role.find(params[:role])
+        #sql="UPDATE users_roles SET role_id=#{role.id} WHERE user_id=#{@user.id};"
+        
+        #@user.user_type=role.name
+        @customers.first_name=params[:name]
+        @customers.is_active=active
+        #ActiveRecord::Base.connection.execute(sql)
+        @customers.save
         redirect_to admin_manage_user_path ,:notice=>"Update succesfully!"
       rescue Exception => e
         redirect_to admin_manage_user_path ,:notice=>"#{e.message}"
       end
   end
   def update_employee
-    @user=User.find(params[:user_id])
+    @employees=User.find(params[:user_id])
+    active=params[:active].to_i
+          if active==1
+           active=true
+          else
+           active=false
+          end
       begin
-        @employee=@user.employees.first
+        @employee=@employees.employees.first
         @employee.update_attributes(address: params[:address],zip:params[:zip],first_name:params[:first_name],ref_code:params[:ref_code], dob: nil,city: params[:city], last_name:params[:last_name], county:params[:county],mid_name: params[:mid_name], phone_1:params[:phone_1] , phone:params[:phone], ss_no:params[:ss_no], state:params[:state])
+         @employees.address=params[:address]
+         #role=Role.find(params[:role])
+         #sql="UPDATE users_roles SET role_id=#{role.id} WHERE user_id=#{@user.id};"
+         #@user.user_type=role.name
+         @employees.is_active=active
+         #ActiveRecord::Base.connection.execute(sql)
+         @employees.first_name=params[:first_name]
+         @employees.last_name=params[:last_name]
+         @employees.save
          if !params[:dob].blank?
           @employee.dob= params[:dob].to_date
         end

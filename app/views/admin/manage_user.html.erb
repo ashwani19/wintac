@@ -1,43 +1,27 @@
-<p><h2>All Users</h2><div class="text-right"><%= link_to "+ Add User", sign_up_path ,:class=>"btn btn-primary"%>&nbsp;&nbsp;<%= link_to "+ Add Role", admin_path ,:class=>"btn btn-primary"%></div></p>
-<form action="/admin/delete_users" method="post">
-<div class="text-left dlt-btn"><input type="submit" value="Delete" class="btn btn-danger"/></div>
-<table class="table table-bordered table-hover">
- <thead>
-<tr>
-<th>Sr.No <input type="checkbox" name="checkbox" id="select-all" /></th>
-<th>Name</th>
-<th>Address</th>
-<th>Type</th>
-<th>Create Time</th>
-<th>Edit User</th>
-</tr>
- </thead>
- <tbody>
- 	<%if !@user.nil?%>
- 	<%@user.each_with_index do |user,index|%>
-<%if !user.is_admin%>
-<tr id="<%=user.id%>"<%if index.zero?%> class="info" <%elsif !(index).odd?%> class="active"<%else%>class="info" <%end%>>
-	<td><%if index.zero?%>1<%else%><%=index%><%end%> <input type="checkbox" name="users[]" id="checkbox-<%=user.id%>" value="<%=user.id%>" /></td>
-	<td><%=user.full_name%></td>
-	<%if user.is_customer%>
-	<td><%=user.customers.first.address1%></td>
-	<%else%>
-	<td><%=user.employees.first.address%></td>
-	<%end%>
-	<td><%=user.user_type.capitalize%></td>
-	<td><%=user.created_at.to_date%></td>
-	
-	<td><a class="btn btn-primary"  onclick="edit_user(<%=user.id%>)" href="#">Edit</a></td>
-</tr>
-<%end%>
-<%end%>
-<%end%>
- </tbody>
-</table>
-<div class="text-right"><%= will_paginate @user, renderer: BootstrapPagination::Rails %></div>
-</form>
+<!--Search UI-->
+<div class="form-inline serch-box">
+          <input type="text" class="form-control" id="keyword" placeholder="Search User">
+         
+          <select class="form-control target " id="order">          
+            <option onClick="searchUser()" value="name">Name</option>
+            <option onClick="searchUser()" value="address">Address</option>
+            <option onClick="searchUser()" value="role">User type</option>
+            <option onClick="searchUser()" value="date">Created Date</option>
+            <option onClick="searchUser()" value="active">Active</option>
+            <option onClick="searchUser()" value="deactive">Inactive</option>
+        </select>
+         <button type="submit" class="btn btn-primary" onclick="searchUser()">Search</button>  
+  </div>
 
+<input type="hidden" name="desc" value="" id="desc"/>
+<!--end-->
+<p><div class="text-right"><%= link_to "+ Add User", sign_up_path ,:class=>"btn btn-primary"%></div></p>
+<div id="search_page">
+</div>
 <script type="text/javascript">
+$( document ).ready(function() {
+    sendAjax();
+});
 function edit_user(user_id){
 	
 $.ajax({type: "get",url: "/admin/update_user",data: {'user_id' : user_id },success:function(){
@@ -62,5 +46,66 @@ $('#select-all').click(function(event) {
     }
 });
 
+//Search User code
+  $("#keyword").keyup(function(event){
+    if(event.keyCode == 13){
+      sendAjax();
+    }
+  });
 
+  $("#keyword").keypress(function(event){
+    
+      sendAjax();
+   
+  });
+
+/*  $("#order").change(function() {    
+    sendAjax();
+  });
+*/
+
+   function searchUser()
+   {
+    sendAjax();
+   }
+  function sendAjax(){
+    var keyword=$("#keyword").val();
+    var order=$("#order").val();
+    var page=$("#page_no").val()
+    //var zip=$("#zip").val();    
+    
+    $.ajax({ type: 'GET', url: "/search/search_user",data: ({ 'keyword' : keyword,'order' :order,'page': page}),success: function(data){
+      $("#loader").hide();
+        var order=$("#order").val();
+
+        if(order=='deactive')
+        {
+          
+          $("#d").val("Active")
+        }
+
+    } }); 
+  }
+function searchD(order){
+  var keyword=$("#keyword").val();
+    var order=order
+    var page=$("#page_no").val() 
+    
+    var desc=$("#desc").val();
+    if (desc=='desc')
+    {
+    $.ajax({ type: 'GET', url: "/search/search_user",data: ({ 'keyword' : keyword,'order' :order,'page': page,'desc': desc}),success: function(data){
+      $("#loader").hide();
+      $(this).toggleClass( 'caret', 'caret-1');
+      $("#desc").val('asc');
+    } });  
+    }    
+    else{
+    $.ajax({ type: 'GET', url: "/search/search_user",data: ({ 'keyword' : keyword,'order' :order,'page': page}),success: function(data){
+      $("#loader").hide();
+      $(this).toggleClass( 'caret-1', 'caret');
+      $("#desc").val('desc');
+    } });
+    } 
+}
 </script>

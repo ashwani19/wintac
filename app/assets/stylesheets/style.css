@@ -52,3 +52,42 @@ legend.scheduler-border {
 }
 
 .dlt-btn{margin:-43px 0 20px 0px;}
+.btn-circle{
+  border-radius: 15px;
+    font-size: 12px;
+    height: 30px;
+    line-height: 1.42857;
+    padding: 6px 0;
+    text-align: center;
+    width: 30px;
+}
+.user-circle-online {
+    height: 15px !important;
+    width: 15px !important;
+}
+.serch-box{    margin: 12px 540px -45px;
+    text-align: right;
+    width: 500px;
+  }
+.label-role{
+     display: inline-block;
+    
+    margin-bottom: 5px;
+    font-size: 12px;
+    }
+.bt-logout{
+  margin-top: 6px;
+}
+.tr-cursor{
+  cursor: pointer;
+} 
+.caret-1 {
+    border-bottom: 4px solid;
+    border-left: 4px solid rgba(0, 0, 0, 0);
+    border-right: 4px solid rgba(0, 0, 0, 0);
+    display: inline-block;
+    height: 0;
+    margin-left: 2px;
+    vertical-align: middle;
+    width: 0;
+}

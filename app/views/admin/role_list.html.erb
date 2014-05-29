@@ -1,34 +1,26 @@
+<!--Search-->
+      <div class="form-inline serch-box">
+        <input type="text" class="form-control" id="keyword" placeholder="Search Role">
+        
+        <select class="form-control target " id="order">          
+          <option onClick="searchRole()" value="name">Name</option>
+          <option onClick="searchRole()" value="date">Created Date</option>
+       </select> 
+     <button type="submit" class="btn btn-primary" onclick="searchRole()">Search</button>
+      </div>
+      <!--End-->
+      <input type="hidden" name="desc" value="" id="desc"/>
 <p><div class="text-right"><%= link_to "+ Add Role", admin_path ,:class=>"btn btn-primary"%></div></p>
-<%if !@roles.nil?%>
+<div id="search_page">
 
-<table class="table table-bordered table-hover">
-	<thead>
-  <tr>
-  <th>Sr.No</th>
-  <th>Name</th>
-  <th>Role Description</th>
-  <th>Created Date</th>
-  <th>Edit</th>
-  </tr>
-	</thead>
-	
-<tbody>
-   <%@roles.to_enum.with_index(1).each do |role,index|%>
-  	<tr <%if index.zero?%> class="info" <%elsif (index).odd?%> class="active"<%else%>class="info" <%end%>>
- 		<td><%if index.zero?%>1<%else%><%=index%><%end%></td>
- 		<td><%=role.name.capitalize%></td>
- 		<td><%=role.role_desc.capitalize%></td>
- 		<td><%=role.created_at.to_date%></td>
- 		<td><a href="#" onclick="view_role(<%=role.id%>)" class="btn btn-primary">Edit</a></td>
-  </tr>
-  <%end%>
-</tbody>
-	
-</table>
-<div class="text-right"><%= will_paginate @roles, renderer: BootstrapPagination::Rails %></div>
-
-<%end%>
+</div>
 <script type="text/javascript">
+
+$( document ).ready(function() {
+    sendAjax();
+});
+
+
 function view_role(id)
 {
 	$.ajax({type: "get",url: "/admin/role_list",data: {'add_role_id' : id},success:function(){
@@ -36,5 +28,55 @@ function view_role(id)
   		
 	}
 });
+}
+
+//Search User code
+  $("#keyword").keyup(function(event){
+    if(event.keyCode == 13){
+      sendAjax();
+    }
+  });
+/*
+  $("#zip").keyup(function(event){
+    if(event.keyCode == 13){
+      sendAjax();
+    }
+  });
+*/
+/*  $("#order").change(function() {    
+    sendAjax();
+  });
+*/
+   function searchRole()
+   {
+    sendAjax();
+   }
+  function sendAjax(){
+    var keyword=$("#keyword").val();
+    var order=$("#order").val();
+    //var zip=$("#zip").val();    
+    
+    $.ajax({ type: 'GET', url: "/search/search_role",data: ({ 'keyword' : keyword,'order' :order}),success: function(data){
+      $("#loader").hide();
+    } }); 
+  }
+  function searchD(order){
+  var keyword=$("#keyword").val();
+    var order=order
+    var page=$("#page_no").val();
+    var desc=$("#desc").val(); 
+    //var zip=$("#zip").val();    
+    if (desc=='desc'){
+      $.ajax({ type: 'GET', url: "/search/search_role",data: ({ 'keyword' : keyword,'order' :order,'page': page,'desc': desc}),success: function(data){
+      $("#loader").hide();
+      $("#desc").val('asc');
+    } });
+
+    }else{
+    $.ajax({ type: 'GET', url: "/search/search_role",data: ({ 'keyword' : keyword,'order' :order,'page': page}),success: function(data){
+      $("#loader").hide();
+      $("#desc").val('desc');
+    } }); 
+    }
 }
 </script>

@@ -64,7 +64,8 @@ class User < ActiveRecord::Base
 # Display Full Name of company or user
  	def full_name
 		self.first_name.capitalize+" "+self.last_name.capitalize if !self.first_name.nil? and !self.last_name.nil?
-  	end
+  end
+#define user is admin or not 
  def is_admin
    if self.user_type=="admin"
      true
@@ -72,6 +73,7 @@ class User < ActiveRecord::Base
     false
    end
  end
+ #define user is customer or not 
  def is_customer
    if self.user_type=="customer"
      true
@@ -79,6 +81,7 @@ class User < ActiveRecord::Base
     false
    end
  end
+ #define user is employee or not 
  def is_employee
    if self.user_type=="employee"
      true

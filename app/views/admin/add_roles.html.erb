@@ -20,27 +20,30 @@
 
 
 <fieldset class="scheduler-border">
-	<legend class="scheduler-border">Add Resources</legend>
+	<legend class="scheduler-border">Add Module</legend>
 
 		<%if !@resource.nil?%>
+    <div class="row">
 			<%@resource.each do |resource| %>
 
-			<div class="row">
-				<div class="col-md-12">
+			
+				<div class="col-md-6">
 					<input type="checkbox" name="resource[]" value="<%=resource.id%>" />
-				
-        
-     			<%= label_tag(:resource, resource.name) %>
-  				</div>
-			</div>
+     			<%= label_tag(:resource, resource.name,:class=>"label-role") %>
+  			</div>
+        <!--<div class="col-md-4">.col-md-4</div>
+        <div class="col-md-4">.col-md-4</div>
+        <div class="col-md-4">.col-md-4</div>-->
+			
 
 			<%end%>
+      </div>
 		<%end%>
 
 
 
 
- <p class="button"><%= submit_tag "Create Role" ,:class=>'btn btn-primary'%> &nbsp;<%=link_to "Cancle" ,admin_manage_user_path ,:class=>" btn btn-primary"%></p>
+ <p class="button"><%= submit_tag "Create Role" ,:class=>'btn btn-primary'%> &nbsp;<%=link_to "Cancel" ,admin_role_list_path ,:class=>" btn btn-primary"%></p>
  <%end%>
 <% end %>
 

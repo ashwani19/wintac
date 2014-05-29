@@ -4,17 +4,25 @@
                     <!-- Form Elements -->
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                             Update User Profile 
+                             <b> <%=@user.user_type.capitalize%> : <%=@user.full_name%> </b> 
                         </div>
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-lg-6">
-                                    
+                                        <div class="form-group" >
+                                          <label class="control-label">User Mode</label>
+                                          <select class="form-control" name="active">
+                                            <option value="0" <%if !@user.is_active%>selected <%end%>>Inactive</option>
+                                            <option value="1" <%if @user.is_active%>selected <%end%>>Active</option>
+                                          </select>
+                                        </div>
+
                                         <div class="form-group">
                                             <input type="hidden" value="<%=@user.id%>" name="user_id">
                                             <label>Last Name</label>
                                                 <input class="form-control"  name="last_name" placeholder="First Name" value="<%=@employee.last_name.nil? ? '' : @employee.last_name %>">
                                             </div>
+
                                             <div class="form-group">
                                             <label>Address</label>
                                             <textarea class="form-control" name="address" rows="3"><%=@employee.address.nil? ? '' : @employee.address %></textarea>
@@ -43,10 +51,10 @@
                                             </span>
                                       </div>
                                   </div>
-                                   
-                                        
-                                        
-                                        <div class="form-group">
+                                    
+                                </div>
+                                <div class="col-lg-6">
+                                       <div class="form-group">
                                             <label>Ref.Code</label>
                                             <select class="form-control" name="ref_code">
                                                 <option value="BAD DEBT">BAD DEBT</option>
@@ -64,12 +72,6 @@
                                             </select>
                                             
                                         </div>
-                                        
-                                       
-                                    
-                                </div>
-                                <div class="col-lg-6">
-                                    
                                     
                                         <div class="form-group">
                                             <label class="control-label" for="inputSuccess">First Name</label>
@@ -87,8 +89,18 @@
                                             <label class="control-label" for="inputError">Phone No-2</label>
                                             <input type="text" name="phone_1" class="form-control" id="inputError"  value="<%=@employee.phone_1.nil? ? '' : @employee.phone_1 %>">
                                         </div>
-                                    
-                                    
+                                        <!--
+                                          <div class="form-group">
+                                            <label class="control-label" for="inputError">Role</label>
+                                           <select class="form-control" name="role">
+                                            <%
+                                            roles=Role.all
+                                            %>
+                                            <%roles.each do |role|%>
+                                            <option value="<%=role.id%>"<%if @user.user_type==role.name%>selected<%end%>><%=role.name.capitalize%></option>
+                                            <%end%>
+                                           </select>
+                                          </div>-->
                                     
                                         <div class="form-group">
                                             <label for="disabledSelect">Email</label>
@@ -104,13 +116,22 @@
                                             <input type="text" class="form-control" name="county" placeholder=""  value="<%=@employee.county.nil? ? '' : @employee.county %>">
                                         </div>
                                         
-                                       <button type="submit" class="btn btn-primary">Submit Button</button>
-                                         <button type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Cancel</button>   
+                                        
                                     
                                 </div>
                             </div>
+                            <button type="submit" class="btn btn-primary">Update</button>
+                                         <button type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Cancel</button>
                         </div>
+
                     </div>
+                      
                      <!-- End Form Elements -->
                 </div>
                 </form>
+                <script type="text/javascript">
+                 
+                 
+                </script>
+                
+                
