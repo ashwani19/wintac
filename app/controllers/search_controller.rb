@@ -7,7 +7,7 @@ class SearchController < ApplicationController
   	    end
 			
 	end
-  
+
   def search_role
     @roles ||= fetch_roles
     
@@ -21,6 +21,14 @@ def fetch_users
     users = users.page(page).per_page(per_page)
     if params[:keyword].present?
       users = users.where("first_name iLIKE :search or address iLIKE :search or user_type iLIKE :search and user_type!='admin'", search: "#{params[:keyword]}%")
+    elsif !params[:mode].blank? and (params[:mode]=='active' || params[:mode]=='inactive')
+      if params[:mode]=='active'
+        users = User.where("user_type!='admin' and is_active=?",true).order("#{sort_column_user} #{sort_direction}")
+        users = users.page(page).per_page(per_page)
+      else
+        users = User.where("is_active=? and user_type!='admin'",false).order("#{sort_column_user} #{sort_direction}")
+        users = users.page(page).per_page(per_page)
+      end
     end
     users
   end

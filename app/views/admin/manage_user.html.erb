@@ -11,7 +11,13 @@
  
           <input type="text" class="form-control" id="keyword" placeholder="Search User">
          <input type="hidden" name="order" id="order" value="0"/>
-          
+         <select class="form-control target " id="mode" >          
+             <option  value="name">Name</option>
+             <option  value="address">Address</option>
+             <option  value="role">User type</option>
+             <option onClick="searchUser()" value="active">Active</option>
+            <option onClick="searchUser()" value="inactive">Inactive</option>
+          </select>
          <button type="submit" class="btn btn-primary" onclick="searchUser()">Search</button>  
   </div>
 
@@ -53,11 +59,7 @@ $('#select-all').click(function(event) {
     }
   });
 
-  $("#keyword").keypress(function(event){
-    
-      sendAjax();
-   
-  });
+  
 
 /*  $("#order").change(function() {    
     sendAjax();
@@ -73,6 +75,7 @@ $('#select-all').click(function(event) {
         sendAjax();
     });
   function sendAjax(){
+    var mode=$("#mode").val();
     var keyword=$("#keyword").val();
     var order=$("#order").val();
     var page=$("#page_no").val()
@@ -83,7 +86,7 @@ $('#select-all').click(function(event) {
     else{
       page=$("#page_no").val()
     }
-    $.ajax({ type: 'GET', url: "/search/search_user",data: ({ 'keyword' : keyword,'order' :order,'page': page,'per_page' :per_page}),success: function(data){
+    $.ajax({ type: 'GET', url: "/search/search_user",data: ({ 'mode' : mode,'keyword' : keyword,'order' :order,'page': page,'per_page' :per_page}),success: function(data){
       $("#loader").hide();
         var order=$("#order").val();
 
