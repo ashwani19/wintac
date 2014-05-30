@@ -68,7 +68,7 @@ end
   if params[:user_id].present?
   active=params[:active]
    User.find(params[:user_id].to_i).update_attribute(:is_active,active)
-   puts "======================#{params[:active]}========================="
+  
   else
       users = params[:users]
     if !users.blank?
@@ -113,7 +113,7 @@ end
   def update_role
      if !current_user.nil? and current_user.is_admin
       if !params[:id].blank?
-        puts "=============================#{params[:id]}"
+        
        
         @role=AddRole.find(params[:id])
         @role.update_attribute(:role_desc,params[:role_desc])
