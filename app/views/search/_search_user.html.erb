@@ -6,10 +6,11 @@
  <thead>
 <tr class="bg-primary">
 <th> <input type="checkbox" name="checkbox" id="select-all" /> All</th>
-<th><span class="tr-cursor" onclick="searchD('name')">Name<b class="caret"></b></span></th>
-<th><span class="tr-cursor" onclick="searchD('address')">Address<b class="caret"></b></span></th>
-<th><span class="tr-cursor" onclick="searchD('role')">Type<b class="caret"></b></span></th>
-<th><span class="tr-cursor" onclick="searchD('date')">Created Date<b class="caret"></b></span></th>
+<th><span class="tr-cursor" onclick="searchD(0)">Name<b class="caret"></b></span></th>
+<th><span class="tr-cursor" onclick="searchD(1)">Address<b class="caret"></b></span></th>
+<th>Active</th>
+<th><span class="tr-cursor" onclick="searchD(2)">Type<b class="caret"></b></span></th>
+<th><span class="tr-cursor" onclick="searchD(3)">Created Date<b class="caret"></b></span></th>
 <th>Edit User</th>
 </tr>
  </thead>
@@ -25,6 +26,11 @@
     <td><%=user.full_name%></td>
     
 	<td><%=user.address%></td>
+    <%if user.is_active%>
+    <td><a href="#" id="a_<%=user.id%>" onclick="active_u(<%=user.id%>, <%=!user.is_active%>)" class="btn btn-primary">Active</a></td>
+    <%else%>
+    <td><a href="#" id="a_<%=user.id%>" onclick="active_u(<%=user.id%>, <%=!user.is_active%>)" class="btn btn-warning">Inctive</a></td>
+    <%end%>
 	<td><%=user.user_type.capitalize%></td>
 	<td><%=user.created_at.to_date%></td>
 	
@@ -74,4 +80,12 @@ $('#select-all').click(function(event) {
 <script type="text/javascript">
 $('.pagination a').attr('data-remote', 'true');
 $("#loader").hide();
+function active_u(id,active)
+{
+    $.ajax({type: "post",url: "/admin/delete_users",data: {'user_id' : id ,'active' :active },success:function(){
+  $("#loader").hide();
+    location.reload();
+  }
+});
+}
 </script>

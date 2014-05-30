@@ -1,15 +1,17 @@
 <!--Search UI-->
 <div class="form-inline serch-box">
-          <input type="text" class="form-control" id="keyword" placeholder="Search User">
-         
-          <select class="form-control target " id="order">          
-            <option onClick="searchUser()" value="name">Name</option>
-            <option onClick="searchUser()" value="address">Address</option>
-            <option onClick="searchUser()" value="role">User type</option>
-            <option onClick="searchUser()" value="date">Created Date</option>
-            <option onClick="searchUser()" value="active">Active</option>
-            <option onClick="searchUser()" value="deactive">Inactive</option>
+
+       <select class="form-control target " id="rec">          
+            <option onClick="searchUserPage()" value="5">5</option>
+            <option onClick="searchUserPage()" value="10">10</option>
+            <option onClick="searchUserPage()" value="15">15</option>
+            <option onClick="searchUserPage()" value="20">20</option>
+            
         </select>
+ 
+          <input type="text" class="form-control" id="keyword" placeholder="Search User">
+         <input type="hidden" name="order" id="order" value="0"/>
+          
          <button type="submit" class="btn btn-primary" onclick="searchUser()">Search</button>  
   </div>
 
@@ -19,9 +21,7 @@
 <div id="search_page">
 </div>
 <script type="text/javascript">
-$( document ).ready(function() {
-    sendAjax();
-});
+
 function edit_user(user_id){
 	
 $.ajax({type: "get",url: "/admin/update_user",data: {'user_id' : user_id },success:function(){
@@ -68,13 +68,22 @@ $('#select-all').click(function(event) {
    {
     sendAjax();
    }
+
+   $( document ).ready(function() {
+        sendAjax();
+    });
   function sendAjax(){
     var keyword=$("#keyword").val();
     var order=$("#order").val();
     var page=$("#page_no").val()
-    //var zip=$("#zip").val();    
-    
-    $.ajax({ type: 'GET', url: "/search/search_user",data: ({ 'keyword' : keyword,'order' :order,'page': page}),success: function(data){
+    var per_page=$("#rec").val();
+    if (!page) {
+      page=1
+    }
+    else{
+      page=$("#page_no").val()
+    }
+    $.ajax({ type: 'GET', url: "/search/search_user",data: ({ 'keyword' : keyword,'order' :order,'page': page,'per_page' :per_page}),success: function(data){
       $("#loader").hide();
         var order=$("#order").val();
 
@@ -90,18 +99,52 @@ function searchD(order){
   var keyword=$("#keyword").val();
     var order=order
     var page=$("#page_no").val() 
-    
+    var per_page=$("#rec").val();
     var desc=$("#desc").val();
+    if (!page) {
+      page=1
+    }
+    else{
+      page=$("#page_no").val()
+    }
     if (desc=='desc')
     {
-    $.ajax({ type: 'GET', url: "/search/search_user",data: ({ 'keyword' : keyword,'order' :order,'page': page,'desc': desc}),success: function(data){
+    $.ajax({ type: 'GET', url: "/search/search_user",data: ({ 'keyword' : keyword,'order' :order,'page': page,'desc': desc,'per_page' :per_page}),success: function(data){
       $("#loader").hide();
       $(this).toggleClass( 'caret', 'caret-1');
       $("#desc").val('asc');
     } });  
     }    
     else{
-    $.ajax({ type: 'GET', url: "/search/search_user",data: ({ 'keyword' : keyword,'order' :order,'page': page}),success: function(data){
+    $.ajax({ type: 'GET', url: "/search/search_user",data: ({ 'keyword' : keyword,'order' :order,'page': page,'per_page' :per_page}),success: function(data){
+      $("#loader").hide();
+      $(this).toggleClass( 'caret-1', 'caret');
+      $("#desc").val('desc');
+    } });
+    } 
+}
+function searchUserPage(){
+  var keyword=$("#keyword").val();
+    var order=$("#order").val();
+    var page=$("#page_no").val();
+    var per_page=$("#rec").val();
+    var desc=$("#desc").val();
+    if (!page) {
+      page=1
+    }
+    else{
+      page=$("#page_no").val()
+    }
+    if (desc=='desc')
+    {
+    $.ajax({ type: 'GET', url: "/search/search_user",data: ({ 'keyword' : keyword,'order' :order,'page': page,'desc': desc,'per_page' :per_page}),success: function(data){
+      $("#loader").hide();
+      $(this).toggleClass( 'caret', 'caret-1');
+      $("#desc").val('asc');
+    } });  
+    }    
+    else{
+    $.ajax({ type: 'GET', url: "/search/search_user",data: ({ 'keyword' : keyword,'order' :order,'page': page,'per_page' :per_page}),success: function(data){
       $("#loader").hide();
       $(this).toggleClass( 'caret-1', 'caret');
       $("#desc").val('desc');

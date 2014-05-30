@@ -65,6 +65,11 @@ end
  #End depricated method
  
  def delete_users
+  if params[:user_id].present?
+  active=params[:active]
+   User.find(params[:user_id].to_i).update_attribute(:is_active,active)
+   puts "======================#{params[:active]}========================="
+  else
       users = params[:users]
     if !users.blank?
       msg=""
@@ -78,6 +83,7 @@ end
        end
         
          users.each{|i|  User.find(i).is_active ? User.find(i).update_attribute(:is_active,false) : User.find(i).update_attribute(:is_active,true) }
+    end
     end
         redirect_to admin_manage_user_path,:notice => msg
   end
@@ -145,15 +151,18 @@ end
       begin
         @customer=@customers.customers.first
         @customer.update_attributes(address1: params[:address1],address2: nil, business:params[:business], city: params[:city], company_name:params[:company_name], county:params[:county], email_1: nil, name: params[:name], phone1:params[:phone1] , phone2:params[:phone2], salutation:params[:salutation], state:params[:state])
-        @customers.address=params[:address1]
+        @customers.address=params[:address1].strip
         #role=Role.find(params[:role])
         #sql="UPDATE users_roles SET role_id=#{role.id} WHERE user_id=#{@user.id};"
         
         #@user.user_type=role.name
-        @customers.first_name=params[:name]
-        @customers.is_active=active
+        puts "========================== First ==================="
+        puts "=================Customer #{@customers.inspect}"
+         @customers.update_attributes(is_active: active,first_name:params[:name])
+         puts "====================== After update======================="
+        puts "=================Customer #{@customers.inspect}"
         #ActiveRecord::Base.connection.execute(sql)
-        @customers.save
+        #@customers.save
         redirect_to admin_manage_user_path ,:notice=>"Update succesfully!"
       rescue Exception => e
         redirect_to admin_manage_user_path ,:notice=>"#{e.message}"
@@ -170,22 +179,23 @@ end
       begin
         @employee=@employees.employees.first
         @employee.update_attributes(address: params[:address],zip:params[:zip],first_name:params[:first_name],ref_code:params[:ref_code], dob: nil,city: params[:city], last_name:params[:last_name], county:params[:county],mid_name: params[:mid_name], phone_1:params[:phone_1] , phone:params[:phone], ss_no:params[:ss_no], state:params[:state])
-         @employees.address=params[:address]
+         @employees.address=params[:address].strip
          #role=Role.find(params[:role])
          #sql="UPDATE users_roles SET role_id=#{role.id} WHERE user_id=#{@user.id};"
          #@user.user_type=role.name
-         @employees.is_active=active
+         #@employees.is_active=active
+         @employees.update_attributes(is_active: active,first_name:params[:first_name],last_name:params[:last_name])
          #ActiveRecord::Base.connection.execute(sql)
-         @employees.first_name=params[:first_name]
-         @employees.last_name=params[:last_name]
-         @employees.save
+         #@employees.first_name=params[:first_name]
+         #@employees.last_name=params[:last_name]
+        # @employees.save
          if !params[:dob].blank?
           @employee.dob= params[:dob].to_date
         end
          @employee.save
-        current_user.first_name=params[:first_name]
-        current_user.last_name=params[:last_name]
-        current_user.save
+       # current_user.first_name=params[:first_name]
+        #current_user.last_name=params[:last_name]
+       # current_user.save
         redirect_to admin_manage_user_path ,:notice=>"Update succesfully!"
       rescue Exception => e
         redirect_to admin_manage_user_path ,:notice=>"#{e.message}"

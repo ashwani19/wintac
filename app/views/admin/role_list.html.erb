@@ -1,11 +1,16 @@
 <!--Search-->
       <div class="form-inline serch-box">
+        <select class="form-control target " id="rec">          
+            <option onClick="searchUserPage()" value="5">5</option>
+            <option onClick="searchUserPage()" value="10">10</option>
+            <option onClick="searchUserPage()" value="15">15</option>
+            <option onClick="searchUserPage()" value="20">20</option>
+            
+        </select>
+
         <input type="text" class="form-control" id="keyword" placeholder="Search Role">
-        
-        <select class="form-control target " id="order">          
-          <option onClick="searchRole()" value="name">Name</option>
-          <option onClick="searchRole()" value="date">Created Date</option>
-       </select> 
+        <input type="hidden" value="0" id="order"/>
+         
      <button type="submit" class="btn btn-primary" onclick="searchRole()">Search</button>
       </div>
       <!--End-->
@@ -36,6 +41,12 @@ function view_role(id)
       sendAjax();
     }
   });
+
+  $("#keyword").keypress(function(event){
+    
+      sendAjax();
+   
+  });
 /*
   $("#zip").keyup(function(event){
     if(event.keyCode == 13){
@@ -54,29 +65,71 @@ function view_role(id)
   function sendAjax(){
     var keyword=$("#keyword").val();
     var order=$("#order").val();
-    //var zip=$("#zip").val();    
-    
-    $.ajax({ type: 'GET', url: "/search/search_role",data: ({ 'keyword' : keyword,'order' :order}),success: function(data){
+    var page=$("#page_no").val();   
+      var per_page=$("#rec").val();
+      if (!page) {
+      page=1
+    }
+    else{
+      page=$("#page_no").val()
+    }
+    $.ajax({ type: 'GET', url: "/search/search_role",data: ({ 'keyword' : keyword,'order' :order,'per_page' :per_page,'page': page}),success: function(data){
       $("#loader").hide();
     } }); 
   }
   function searchD(order){
-  var keyword=$("#keyword").val();
+    var keyword=$("#keyword").val();
     var order=order
+     var per_page=$("#rec").val();
     var page=$("#page_no").val();
     var desc=$("#desc").val(); 
+    if (!page) {
+      page=1
+    }
+    else{
+      page=$("#page_no").val()
+    }
     //var zip=$("#zip").val();    
     if (desc=='desc'){
-      $.ajax({ type: 'GET', url: "/search/search_role",data: ({ 'keyword' : keyword,'order' :order,'page': page,'desc': desc}),success: function(data){
+      $.ajax({ type: 'GET', url: "/search/search_role",data: ({ 'keyword' : keyword,'order' :order,'per_page' :per_page,'page': page,'desc': desc}),success: function(data){
       $("#loader").hide();
       $("#desc").val('asc');
     } });
 
     }else{
-    $.ajax({ type: 'GET', url: "/search/search_role",data: ({ 'keyword' : keyword,'order' :order,'page': page}),success: function(data){
+    $.ajax({ type: 'GET', url: "/search/search_role",data: ({ 'keyword' : keyword,'order' :order,'per_page' :per_page,'page': page}),success: function(data){
       $("#loader").hide();
       $("#desc").val('desc');
     } }); 
     }
 }
+function searchUserPage()
+{
+var keyword=$("#keyword").val();
+    var order=$("#order").val();
+    var page=$("#page_no").val()
+    var per_page=$("#rec").val();
+    var desc=$("#desc").val();
+    if (!page) {
+      page=1
+    }
+    else{
+      page=$("#page_no").val()
+    } 
+    //var zip=$("#zip").val();    
+    if (desc=='desc'){
+      $.ajax({ type: 'GET', url: "/search/search_role",data: ({ 'keyword' : keyword,'order' :order,'per_page' :per_page,'page': page,'desc': desc}),success: function(data){
+      $("#loader").hide();
+      $("#desc").val('asc');
+    } });
+
+    }else{
+    $.ajax({ type: 'GET', url: "/search/search_role",data: ({ 'keyword' : keyword,'order' :order,'per_page' :per_page,'page': page}),success: function(data){
+      $("#loader").hide();
+      $("#desc").val('desc');
+    } }); 
+    }
+
+}
+
 </script>

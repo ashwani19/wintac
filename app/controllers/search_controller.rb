@@ -1,145 +1,70 @@
 class SearchController < ApplicationController
 	#user search  code 
   def search_user
-	   keyword=params[:keyword]
-  	   order=params[:order]
-       desc=params[:desc]
-  	   case order
-  	    when "name"
-  	    	if keyword.blank?
-            if !desc.blank?
-              @user=User.where("user_type!='admin'").page( params[:page].blank? ? 1 : params[:page]).per_page(10).reorder("first_name DESC")
-            else
-              @user=User.where("user_type!='admin'").page( params[:page].blank? ? 1 : params[:page]).per_page(10).reorder(:first_name,:last_name)
-            end
-  	    	else
-            if !desc.blank?
-  	    		  @user=User.where("first_name iLIKE ? and user_type!='admin'","#{keyword}%").page( params[:page].blank? ? 1 : params[:page]).per_page(10).reorder("first_name DESC")
-  	    		else
-              @user=User.where("first_name iLIKE ? and user_type!='admin'","#{keyword}%").page( params[:page].blank? ? 1 : params[:page]).per_page(10).reorder(:first_name,:last_name)
-            end
-  	    	end 
-  	    when "date"
-  	    	if keyword.blank?
-            if !desc.blank?
-              @user=User.where("user_type!='admin'").page( params[:page].blank? ? 1 : params[:page]).per_page(10).reorder("created_at DESC")
-            else
-              @user=User.where("user_type!='admin'").page( params[:page].blank? ? 1 : params[:page]).per_page(10).reorder(:created_at)
-            end
-  	    		
-  	    	else
-            if !desc.blank?
-  	    		  @user=User.where("first_name iLIKE ? and user_type!='admin'","#{keyword}%").page( params[:page].blank? ? 1 : params[:page]).per_page(10).reorder('created_at DESC')
-  	    		else
-              @user=User.where("first_name iLIKE ? and user_type!='admin'","#{keyword}%").page( params[:page].blank? ? 1 : params[:page]).per_page(10).reorder(:created_at)
-            end
-  	    	end
-  	    when "address"
-  	    	if keyword.blank?
-            if !desc.blank?
-              @user=User.where("user_type!='admin'").page( params[:page].blank? ? 1 : params[:page]).per_page(10).reorder("address DESC")
-            else
-              @user=User.where("user_type!='admin'").page( params[:page].blank? ? 1 : params[:page]).per_page(10).reorder(:address)
-            end
-  	    		
-  	    		#@user=@users.paginate(:page => params[:page].blank? ? 1 : params[:page], :per_page => 10)
-  	    	else
-            if !desc.blank?
-  	    		 @user=User.where("first_name iLIKE ? and user_type!='admin'","#{keyword}%").page( params[:page].blank? ? 1 : params[:page]).per_page(10).reorder('address DESC')
-            else
-              @user=User.where("first_name iLIKE ? and user_type!='admin'","#{keyword}%").page( params[:page].blank? ? 1 : params[:page]).per_page(10).reorder('address ASC')
-           end
-  	    		#@user=@users.paginate(:page => params[:page].blank? ? 1 : params[:page], :per_page => 10)
-  	    	end
-  	    when "role"
-  	        if keyword.blank?
-              if !desc.blank?
-              @user=User.where("user_type!='admin'").page( params[:page].blank? ? 1 : params[:page]).per_page(10).reorder("user_type DESC")
-            else
-              @user=User.where("user_type!='admin'").page( params[:page].blank? ? 1 : params[:page]).per_page(10).reorder(:user_type)
-            end
-  	        else
-              if !desc.blank?
-                @user=User.where("first_name iLIKE ? and user_type!='admin'","#{keyword}%").page( params[:page].blank? ? 1 : params[:page]).per_page(10).reorder('user_type DESC')
-              else
-                @user=User.where("first_name iLIKE ? and user_type!='admin'","#{keyword}%").page( params[:page].blank? ? 1 : params[:page]).per_page(10).reorder('user_type ASC')
-              end
-  	        	
-  	        	#@user=@users.paginate(:page => params[:page].blank? ? 1 : params[:page], :per_page => 10)
-  	        end
-          when "active"
-            if keyword.blank?
-              if !desc.blank?
-              @user=User.where("is_active=? and user_type!='admin'",true).page( params[:page].blank? ? 1 : params[:page]).per_page(10).reorder("first_name DESC")
-            else
-              @user=User.where("is_active=? and user_type!='admin'",true).page( params[:page].blank? ? 1 : params[:page]).per_page(10).reorder(:first_name,:last_name)
-            end
-            else
-              if !desc.blank?
-                @user=User.where("is_active=? and first_name iLIKE ? and user_type!='admin'",true,"#{keyword}%").page( params[:page].blank? ? 1 : params[:page]).per_page(10).reorder("first_name DESC")
-              else
-                 @user=User.where("is_active=? and first_name iLIKE ? and user_type!='admin'",true,"#{keyword}%").page( params[:page].blank? ? 1 : params[:page]).per_page(10).reorder(:first_name,:last_name)
-              end
-              
-              #@user=@users.paginate(:page => params[:page].blank? ? 1 : params[:page], :per_page => 10)
-            end
-
-          when "deactive"
-             if keyword.blank?
-              if !desc.blank?
-              @user=User.where("is_active=? and user_type!='admin'",false).page( params[:page].blank? ? 1 : params[:page]).per_page(10).reorder("first_name DESC")
-            else
-              @user=User.where("is_active=? and user_type!='admin'",false).page( params[:page].blank? ? 1 : params[:page]).per_page(10).reorder(:first_name,:last_name)
-            end
-            else
-              if !desc.blank?
-                 @user=User.where("is_active=? and first_name iLIKE ? and user_type!='admin'",false,"#{keyword}%").page( params[:page].blank? ? 1 : params[:page]).per_page(10).reorder('first_name desc')
-              else
-                 @user=User.where("is_active=? and first_name iLIKE ? and user_type!='admin'",false,"#{keyword}%").page( params[:page].blank? ? 1 : params[:page]).per_page(10).reorder(:first_name,:last_name)
-              end
-             
-              #@user=@users.paginate(:page => params[:page].blank? ? 1 : params[:page], :per_page => 10)
-            end
-              
-  	    							
-  	    end 
+	   @user ||= fetch_users
   	    respond_to do |format|
          format.js
   	    end
 			
 	end
-#role search code
-	def search_role
-		keyword=params[:keyword]
-  	   order=params[:order]
-      desc= params[:desc]
-  	   case order
-  	   when "name"
-         if keyword.blank?
-          if !desc.blank?
-         	  @roles=AddRole.page( params[:page].blank? ? 1 : params[:page]).per_page(6).reorder('name desc') 
-          else
-            @roles=AddRole.page( params[:page].blank? ? 1 : params[:page]).per_page(6).reorder(:name) 
-          end
-         else
-         	@roles=AddRole.where('name iLIKE ?',"#{keyword}%").page( params[:page].blank? ? 1 : params[:page]).per_page(6).reorder("name ASC")
-         	#@roles=@role.paginate(:page =>params[:page].blank? ? 1 : params[:page], :per_page => 6)
-         end
-  	   when "date"
-  	   if keyword.blank?
-        if !desc.blank?
-          @roles=AddRole.page( params[:page].blank? ? 1 : params[:page]).per_page(6).reorder('created_at desc') 
-        else
-  	   	     @roles=AddRole.page( params[:page].blank? ? 1 : params[:page]).per_page(6).reorder(:created_at) 
-         end   
-  	   else
-  	   	     @roles=AddRole.where('name iLIKE ?',"%#{keyword}%").page( params[:page].blank? ? 1 : params[:page]).per_page(6).reorder("created_at ASC")
-             #@roles=@role.paginate(:page => params[:page].blank? ? 1 : params[:page], :per_page => 6)
-  	   end
-  	   			
-  	   end
-		respond_to do |format|
+  
+  def search_role
+    @roles ||= fetch_roles
+    
+    respond_to do |format|
          format.js
-  	    end
-	end
+        end
+  end
+#start sorting code
+def fetch_users
+    users = User.where("user_type!='admin'").order("#{sort_column_user} #{sort_direction}")
+    users = users.page(page).per_page(per_page)
+    if params[:keyword].present?
+      users = users.where("first_name iLIKE :search or address iLIKE :search or user_type iLIKE :search and user_type!='admin'", search: "#{params[:keyword]}%")
+    end
+    users
+  end
+
+  def page
+       page_no=params[:page]
+       if !page_no.blank? and page_no.to_i==1
+           displayStart=0
+        else
+          displayStart=(page_no.to_i-1)*per_page
+       end
+
+     displayStart/per_page+1
+   # params[:iDisplayStart].to_i/per_page + 1
+  end
+
+  def per_page
+   params[:per_page].to_i
+  end
+
+  def sort_column_user
+    columns = %w[first_name address user_type created_at]
+    columns[params[:order].to_i]
+  end
+
+  def sort_direction
+   params[:desc]
+  end
+
+#role search code
+def fetch_roles
+    roles=AddRole.order("#{sort_column_role} #{sort_direction}")
+    roles = roles.page(page).per_page(per_page)
+    if params[:keyword].present?
+      roles = roles.where("name iLIKE :search or role_desc iLIKE :search", search: "#{params[:keyword]}%")
+    end
+    roles
+  end
+
+def sort_column_role
+    columns = %w[name role_desc created_at]
+    columns[params[:order].to_i]
+  end
+#end role search and sort
+
+	
 end
