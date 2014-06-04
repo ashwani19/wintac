@@ -1,6 +1,6 @@
 define([
     "ember",
-    "text!templates/ApplicationTemplate.html"
+    "text!templates/IndexTemplate.html"
 ], function(Ember, applicationTemplate) {
 
     var IndexView = Ember.View.extend({
