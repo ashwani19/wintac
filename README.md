@@ -4,7 +4,7 @@ wintac
 wintac web portal 
 
 1. Prior to initial run:
-  * Make sure Postgresql is intalled
+  * Make sure Postgresql is installed
   * There is a `postgres` user with the password of `postgres`
 2. Initial run:
   * Get the gems for the project
