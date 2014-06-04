@@ -1,11 +1,11 @@
 define([
-    "views/ApplicationView",
+    "views/IndexView",
     "controllers/ApplicationController",
     "app/router"
-], function(ApplicationView, ApplicationController, Router){
+], function(IndexView, ApplicationController, Router){
     /*Module Pattern*/
     var App = {
-        ApplicationView: ApplicationView,
+        ApplicationView: IndexView,
         ApplicationController: ApplicationController,
         Router: Router
     };
