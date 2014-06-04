@@ -3,8 +3,8 @@ define([
     "text!templates/ApplicationTemplate.html"
 ], function(Ember, applicationTemplate) {
 
-    var ApplicationView = Ember.View.extend({
+    var IndexView = Ember.View.extend({
         defaultTemplate: Ember.Handlebars.compile(applicationTemplate)
     });
-    return ApplicationView;
+    return IndexView;
 });
