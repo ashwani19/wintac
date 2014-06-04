@@ -1,4 +1,7 @@
 IntacWebPortal::Application.routes.draw do
+  get "ember/index"
+  get "ember" => "ember#index"
+
   get "home/home"
   get "admin/admin_home"
   post "admin/update_employee"
