@@ -1,6 +1,7 @@
 <%if true %>
 <div class="form-role">
   <fieldset class="scheduler-border">
+
      <legend class="scheduler-border"><h2>Create Role</h2></legend>
      <%= form_tag admin_create_role_path do %>
       <div class="form-group">
@@ -11,9 +12,12 @@
         <%= label_tag :description %>
         <%= text_area_tag :role_desc,params[:role_desc],:class=>"form-control" %>
       </div>
+
   </fieldset>
 </div>
+
 <div class="form-role">
+
  <fieldset class="scheduler-border">
 	 <legend class="scheduler-border">Add Module</legend>
 	 <%if !@resource.nil?%>
@@ -22,6 +26,7 @@
          <input type="checkbox" name="checkbox" id="select-all"  /><label class="label-role"> Select All</label>
         </div>
      </div>
+
     <div class="row">
 			<%@resource.each do |resource| %>
 				<div class="col-md-6">
