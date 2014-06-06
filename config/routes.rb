@@ -8,6 +8,7 @@ IntacWebPortal::Application.routes.draw do
   get "/admin/edit_role"
   post "admin/create_role"
   get "admin/role_list"
+  get "admin/update_success"
   post "admin/resource_update"
   get "admin/resource_update"
   get "employees/employee_home"
@@ -25,12 +26,13 @@ IntacWebPortal::Application.routes.draw do
   get "search/search_role"
   #get "admin/add_roles"
   post "admin/create"
-  match 'add_role' =>'admin#add_roles' ,:as=>'admin'
+  get 'add_role' =>'admin#add_roles' ,:as=>'admin'
   get "password_resets/new"
    
   get "sessions/new"
   get "users/customer_profile"
   get "users/new"
+  get "admin_login"=>"admin#new" ,:as=>"admin_login" 
 get "log_out" => "sessions#destroy", :as => "log_out"
 get "log_in" => "sessions#new", :as => "log_in"
 get "sign_up" => "users#new", :as => "sign_up"

@@ -1,59 +1,63 @@
 <%if true %>
 <div class="form-role">
-<fieldset class="scheduler-border">
-    <legend class="scheduler-border"><h2>Create Role</h2></legend>
-<%= form_tag admin_create_role_path do %>
-  <div class="form-group">
-    <label>Role Name</label>
-    <%= text_field_tag :name, params[:name] ,:class=>"form-control"%>
-  </div>
-  <div class="form-group">
-    <%= label_tag :description %>
-    <%= text_area_tag :role_desc,params[:role_desc],:class=>"form-control" %>
-  </div>
-  
-
- 
+  <fieldset class="scheduler-border">
+     <legend class="scheduler-border"><h2>Create Role</h2></legend>
+     <%= form_tag admin_create_role_path do %>
+      <div class="form-group">
+        <label>Role Name</label>
+        <%= text_field_tag :name, params[:name] ,:class=>"form-control"%>
+      </div>
+      <div class="form-group">
+        <%= label_tag :description %>
+        <%= text_area_tag :role_desc,params[:role_desc],:class=>"form-control" %>
+      </div>
+  </fieldset>
 </div>
 <div class="form-role">
-</fieldset>
-
-
-<fieldset class="scheduler-border">
-	<legend class="scheduler-border">Add Module</legend>
-
-		<%if !@resource.nil?%>
+ <fieldset class="scheduler-border">
+	 <legend class="scheduler-border">Add Module</legend>
+	 <%if !@resource.nil?%>
+     <div class="row">
+        <div class="col-md-4">
+         <input type="checkbox" name="checkbox" id="select-all"  /><label class="label-role"> Select All</label>
+        </div>
+     </div>
     <div class="row">
 			<%@resource.each do |resource| %>
-
-			
 				<div class="col-md-6">
 					<input type="checkbox" name="resource[]" value="<%=resource.id%>" />
      			<%= label_tag(:resource, resource.name,:class=>"label-role") %>
   			</div>
-        <!--<div class="col-md-4">.col-md-4</div>
-        <div class="col-md-4">.col-md-4</div>
-        <div class="col-md-4">.col-md-4</div>-->
-			
-
 			<%end%>
       </div>
 		<%end%>
-
-
-
-
- <p class="button"><%= submit_tag "Create Role" ,:class=>'btn btn-primary'%> &nbsp;<%=link_to "Cancel" ,admin_role_list_path ,:class=>" btn btn-primary"%></p>
+    <p class="button"><%= submit_tag "Create Role" ,:class=>'btn btn-primary'%> &nbsp;<%=link_to "Cancel" ,admin_role_list_path ,:class=>" btn btn-primary"%></p>
+  </fieldset>
+</div>
  <%end%>
 <% end %>
 
-</fieldset>
-</div>
 
 <style type="text/css">
 
 </style>
 <script type="text/javascript">
+
+
+$('#select-all').click(function(event) {   
+    if(this.checked) {
+        // Iterate each checkbox
+        $(':checkbox').each(function() {
+            this.checked = true;                        
+        });
+    }
+    else
+    {
+      $(':checkbox').each(function() {
+            this.checked = false;                        
+        });
+    }
+});
 /*$("").click(function(){
 $.ajax({
   type: "get",
