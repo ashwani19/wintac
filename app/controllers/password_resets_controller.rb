@@ -1,3 +1,4 @@
+#password reset controller use for update and create new password
 class PasswordResetsController < ApplicationController
   #create password reset token
   def create

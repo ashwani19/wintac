@@ -1,10 +1,17 @@
+
+#Search controller manage the search
 class SearchController < ApplicationController
 	#user search  code 
   def search_user
-	   @user ||= fetch_users
+    if params[:load].present?
+	     @user = User.where("user_type!='admin'").order("id ASC")
+       @user=  @user.page(page).per_page(per_page)
+    else
+      @user ||= fetch_users
+    end 
   	    respond_to do |format|
          format.js
-  	    end
+  	   end
 			
 	end
 
@@ -57,6 +64,7 @@ def fetch_users
   def sort_direction
    params[:desc]
   end
+# End of user search
 
 #role search code
 def fetch_roles

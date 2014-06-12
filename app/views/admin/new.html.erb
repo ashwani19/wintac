@@ -1,1 +1,29 @@
-<%=render 'add_roles'%>
+<div class="form info">
+<fieldset class="scheduler-border">
+    <legend class="scheduler-border"><h1><i class="glyphicon glyphicon-user"></i> Login</h1></legend>
+<%= form_tag sessions_path do %>
+<%= label_tag :email ,nil,:class=>"control-label"%><br />
+  <div class="form-group input-group">
+    <input type="hidden" value="admin" name="user_type"/>
+    
+     <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+    <%= text_field_tag :email, params[:email] ,:class=>"form-control"%>
+  </div>
+  <%= label_tag :password ,nil,:class=>"control-label"%><br />
+  <div class="form-group input-group">
+    
+     <span class="input-group-addon"> <i class="glyphicon glyphicon-lock"></i></span>
+    <%= password_field_tag :password,nil,:class=>"form-control" %>
+  </div>
+  <div ><%= link_to "forgotten password?", new_password_reset_path %></p>
+<div class="row">
+        <div class="col-md-12">
+  <%= check_box_tag :remember_me, 1, params[:remember_me] %>
+  <%= label_tag :remember_me %>
+</div>
+</div>
+  <div class="form-group button"><%= submit_tag "Log in" ,:class=>'btn btn-primary'%></div>
+<% end %>
+
+</fieldset>
+</div>

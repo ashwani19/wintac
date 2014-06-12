@@ -4,4 +4,12 @@ class Role < ActiveRecord::Base
   
   scopify
   # attr_accessible :title, :body
+	 #  def self.create_batch_role
+	 #  	[:admin, :author, :contact, :user].each do |role|
+	 #  		Role.find_or_create_by_name({ name: role }, without_protection: true)
+		# end
+		# @user.add_role :admin
+		# @user.has_role? :admin
+	 #  end
+  		
 end

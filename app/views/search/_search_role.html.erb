@@ -5,7 +5,7 @@
   <tr class="bg-primary">
   
   <th><span class="tr-cursor" onclick="searchD(0)">Name<b class="caret"></b></span></th>
-  <th><span class="tr-cursor" onclick="searchD(1)">Role Description<b class="caret"></th>
+  <th style="width:35%;"><span class="tr-cursor" onclick="searchD(1)">Role Description<b class="caret"></th>
   <th><span class="tr-cursor" onclick="searchD(2)">Created date<b class="caret"></b></span></th>
   <th>Edit</th>
   </tr>
@@ -19,7 +19,7 @@
  		<td><%=role.name.capitalize%></td>
  		<td><%=role.role_desc.capitalize%></td>
  		<td><%=role.created_at.to_date%></td>
- 		<td><a href="#" onclick="view_role(<%=role.id%>)" class="btn btn-info">Edit</a></td>
+ 		<td><a href="#" onclick="view_role(<%=role.id%>)" class="btn btn-info"><i class="glyphicon glyphicon-edit"></i> Edit</a></td>
   </tr>
   <%@count+=1%>
   <%end%>

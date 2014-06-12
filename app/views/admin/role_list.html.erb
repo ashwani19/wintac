@@ -1,7 +1,7 @@
 <!--Search-->
       <div class="form-inline serch-box">
         <select class="form-control target " id="rec">          
-            <option onClick="searchUserPage()" value="5">5</option>
+            <!--<option onClick="searchUserPage()" value="5">5</option>-->
             <option onClick="searchUserPage()" value="10">10</option>
             <option onClick="searchUserPage()" value="15">15</option>
             <option onClick="searchUserPage()" value="20">20</option>
@@ -11,11 +11,11 @@
         <input type="text" class="form-control" id="keyword" placeholder="Search Role">
         <input type="hidden" value="0" id="order"/>
          
-     <button type="submit" class="btn btn-primary" onclick="searchRole()">Search</button>
+     <button type="submit" class="btn btn-primary" onclick="searchRole()"><i class="glyphicon glyphicon-search"></i> Search</button>
       </div>
       <!--End-->
       <input type="hidden" name="desc" value="" id="desc"/>
-<p><div class="text-right"><%= link_to "+ Add Role", admin_path ,:class=>"btn btn-primary"%></div></p>
+<p><div class="text-right"><%= link_to "<i class='glyphicon glyphicon-plus-sign'></i> Add Role".html_safe, admin_path ,:class=>"btn btn-primary"%></div></p>
 <div id="search_page">
 
 </div>
@@ -42,11 +42,7 @@ function view_role(id)
     }
   });
 
-  $("#keyword").keypress(function(event){
-    
-      sendAjax();
-   
-  });
+  
 /*
   $("#zip").keyup(function(event){
     if(event.keyCode == 13){

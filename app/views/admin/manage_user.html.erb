@@ -2,10 +2,10 @@
 <div class="form-inline serch-box">
 
        <select class="form-control target " id="rec">          
-            <option onClick="searchUserPage()" value="5">5</option>
-            <option onClick="searchUserPage()" value="10">10</option>
-            <option onClick="searchUserPage()" value="15">15</option>
-            <option onClick="searchUserPage()" value="20">20</option>
+            <!--<option onClick="searchUserPage()" value="5">5</option>-->
+            <option onClick="recordPerPage()" value="10">10</option>
+            <option onClick="recordPerPage()" value="15">15</option>
+            <option onClick="recordPerPage()" value="20">20</option>
             
         </select>
  
@@ -18,12 +18,12 @@
              <option onClick="searchUser()" value="active">Active</option>
             <option onClick="searchUser()" value="inactive">Inactive</option>
           </select>
-         <button type="submit" class="btn btn-primary" onclick="searchUser()">Search</button>  
+         <button type="submit" class="btn btn-primary" onclick="searchUser()"><i class="glyphicon glyphicon-search"></i> Search</button>  
   </div>
 
-<input type="hidden" name="desc" value="" id="desc"/>
+<input type="hidden" name="desc" value="desc" id="desc"/>
 <!--end-->
-<p><div class="text-right"><%= link_to "+ Add User", sign_up_path ,:class=>"btn btn-primary"%></div></p>
+<p><div class="text-right"><%= link_to "<i class='glyphicon glyphicon-plus-sign'></i> Add User".html_safe, sign_up_path ,:class=>"btn btn-primary"%></div></p>
 <div id="search_page">
 </div>
 <script type="text/javascript">
@@ -68,11 +68,13 @@ $('#select-all').click(function(event) {
 
    function searchUser()
    {
+    
     sendAjax();
    }
 
    $( document ).ready(function() {
-        sendAjax();
+    
+        sendAjaxOnLoad()
     });
   function sendAjax(){
     var mode=$("#mode").val();
@@ -119,15 +121,36 @@ function searchD(order){
     } });  
     }    
     else{
-    $.ajax({ type: 'GET', url: "/search/search_user",data: ({ 'keyword' : keyword,'order' :order,'page': page,'per_page' :per_page}),success: function(data){
+    $.ajax({ type: 'GET', url: "/search/search_user",data: ({ 'keyword' : keyword,'order' :order,'page': page,'per_page' :per_page,'desc': desc}),success: function(data){
       $("#loader").hide();
       $(this).toggleClass( 'caret-1', 'caret');
       $("#desc").val('desc');
     } });
     } 
 }
-function searchUserPage(){
-  var keyword=$("#keyword").val();
+/*Function to lode number of record per page*/
+function recordPerPage(){
+  sendAjaxOnLoad()
+}
+/*End Function lode number of record per page */
+
+/**/
+function sendAjaxOnLoad(){
+    var page=$("#page_no").val()
+    var per_page=$("#rec").val();
+    if (!page) {
+      page=1
+    }
+    else{
+      page=$("#page_no").val()
+    }
+        $.ajax({ type: 'GET', url: "/search/search_user",data: ({'load': 1 ,'page': page,'per_page' : per_page}),success: function(data){
+      $("#loader").hide();
+    }
+  });
+}
+
+/*var keyword=$("#keyword").val();
     var order=$("#order").val();
     var page=$("#page_no").val();
     var per_page=$("#rec").val();
@@ -152,6 +175,5 @@ function searchUserPage(){
       $(this).toggleClass( 'caret-1', 'caret');
       $("#desc").val('desc');
     } });
-    } 
-}
+    } */
 </script>

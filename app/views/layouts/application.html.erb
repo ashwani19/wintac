@@ -8,9 +8,11 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-<div class="container">
-  <br/>
+	<div class="container">
 <%=render :partial=>"/layouts/header"%>
+
+  
+
 
 <div class="modal fade" id="myModal" aria-hidden="true">
 </div>
@@ -25,10 +27,12 @@
 
 </style>
 <script type="text/javascript">
+$(".msg").fadeOut(10000);
 $(document).ready(function(){
 	$("#loader").hide();
 });
-$("#flash_notice").fadeOut(10000);
+
+
 
 $( document ).ajaxStart(function() {
   $( "#loader" ).show();

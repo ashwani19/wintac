@@ -19,13 +19,3 @@
     </div>    
   </div>
 </div>
-<script type="text/javascript">
-function delete_1(user_id){
-	
-$.ajax({type: "get",url: "/admin/inactive",data: {'user_id' : user_id},success:function(){
-  $("#loader").hide();
-	$("#<%=@user.id%>").fadeOut(1000);
-  }
-});
-}
-</script>

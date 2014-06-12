@@ -47,7 +47,10 @@ resources :users
 resources :sessions
 resources :password_resets
 resources :customers
-resources :employees
+#resources :employees
+resources :employees do
+  get "serve", :on => :member
+end
 #resources :admin
   # The priority is based upon order of creation:
   # first created -> highest priority.

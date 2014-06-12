@@ -18,7 +18,7 @@
                     <!-- Form Elements -->
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Please update your information to proceed..
+                       <span class="text-right"><%=link_to "Update" ,employees_employee_update_path,:class=>"btn btn-primary"%></span>
                         </div>
                         <div class="panel-body">
                             <div class="row">
@@ -27,43 +27,57 @@
                                         <div class="form-group">
                                             <label>Last Name</label>
                                                 
-                                                <%= best_in_place  @employee, :last_name, :type => :input ,:classes=>"form-control"%>
+                                                <%=@employee.last_name.nil? ? "" : @employee.last_name%>
                                             </div>
                                             <div class="form-group">
                                             <label>Address</label>
                                             
-                                            <%= best_in_place  @employee, :address, :type => :textarea  ,:classes=>"form-control"%>
+                                            <%=@employee.address.nil? ? "" : @employee.address%>
                                             
                                         </div>
                                             <div class="form-group">
                                             <label>City</label>
                                             
-                                            <%= best_in_place  @employee, :city, :type => :input ,:classes=>"form-control"%>
+                                            <%=@employee.city.nil? ? "" :  @employee.city%>
                                             </div>
                                             <div class="form-group">
                                             <label>State</label>
                                             
-                                            <%= best_in_place  @employee, :state, :type => :input ,:classes=>"form-control"%>
+                                            <%=@employee.state.nil? ? "" :  @employee.state%>
                                             </div>
                                             <div class="form-group">
                                             <label>Zip</label>
-                                            
-                                                <%= best_in_place  @employee, :zip, :type => :input ,:classes=>"form-control"%>
-                                        </div>
+                                                <%=@employee.zip.nil? ? "" :  @employee.zip%>
+                                            </div>
                                         <div class="form-group">
                                             <label>Date Of Birth(MM/DD/YYYY)</label>
-                                        
-                                         <%= best_in_place @employee, :dob, :type => :date,:nil => "Add a Date",:classes=>"form-control" %>
+                                         <%= @employee.dob.nil? ? "" : @employee.dob.to_date.to_formatted_s(:rfc822) %> <span class="glyphicon glyphicon-calendar"></span>
                                         </div>
-                                   
-                                        
-                                        
+                                        <div class="form-group">
+                                        <label>Attachments Pictures/Word Documents</label><br/>
+                                       <% if !@employee.filename.nil?%>
+                                         <%= @employee.filename %> 
+                                          <%=link_to "Download" ,serve_employee_path(@employee)%>
+                                        <%end%>
+                                        </div>
                                         <div class="form-group">
                                             <label>Ref.Code</label>
-                                            
-                                            <%= best_in_place @employee, :ref_code, :type => :select, :collection => [["BAD DEBT", "BAD DEBT"], ["COMMERCIAL", "COMMERCIAL"], ["CONTRACT", "CONTRACT"], ["CUSTOMER", "CUSTOMER"] , ["HOME REPAIR", "HOME REPAIR"], ["LEAD", "LEAD"], ["PAYEE", "PAYEE"], ["REV.MAINT", "REV.MAINT"], ["PROSPECT", "PROSPECT"], ["SPECIAL", "SPECIAL"], ["VENDOR", "VENDOR"]] ,:classes=>"form-control" %>
+                                            <%=@employee.ref_code.nil? ? "" :  @employee.ref_code%>
                                         </div>
-                                        
+                                        <div class="form-group">
+                                            <label>Employee Type</label>
+                                            <%=@employee.emp_type.nil? ? "" :  @employee.emp_type%>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>devision</label>
+                                                <%=@employee.devision.nil? ? "" : @employee.devision%>
+                                        </div>
+                                        <div class="form-group">
+                                        <label>notes</label>
+                                            <%=@employee.notes.nil? ? "" : @employee.notes%>
+                                        </div>
+
                                        
                                     
                                 </div>
@@ -73,39 +87,60 @@
                                         <div class="form-group">
                                             <label class="control-label" for="inputSuccess">First Name</label>
                                             
-                                            <%= best_in_place  @employee, :first_name, :type => :input ,:classes=>"form-control"%>
+                                            <%=@employee.first_name.nil? ? "" :  @employee.first_name%>
                                         </div>
                                         <div class="form-group">
                                             <label class="control-label" for="inputSuccess">Mid Name</label>
                                             
-                                            <%= best_in_place  @employee, :mid_name, :type => :input ,:classes=>"form-control"%>
+                                            <%=@employee.mid_name.nil? ? "" :  @employee.mid_name%>
                                         </div>
                                         <div class="form-group ">
                                             <label class="control-label" for="inputWarning">Phone No-1</label>
                                             
-                                            <%= best_in_place  @employee, :phone, :type => :input ,:classes=>"form-control"%>
+                                            <%=@employee.phone.nil? ? "" : @employee.phone%>
                                         </div>
                                         <div class="form-group ">
                                             <label class="control-label" for="inputError">Phone No-2</label>
                                             
-                                            <%= best_in_place  @employee, :phone, :type => :input ,:classes=>"form-control"%>
+                                            <%=@employee.phone_1.nil? ? "" : @employee.phone_1%>
                                         </div>
-                                    
+                                        
+                                      <div class="form-group ">
+                                            <label class="control-label" for="inputError">Hire Date</label>
+                                            
+                                            <%=@employee.hire_date.nil? ? "" : @employee.hire_date.to_formatted_s(:rfc822)%> <span class="glyphicon glyphicon-calendar"></span>
+                                        </div>
+                                        <div class="form-group ">
+                                            <label class="control-label" for="inputError">Termination Date</label>
+                                            
+                                            <%=@employee.termination_date.nil? ? "" : @employee.termination_date.to_formatted_s(:rfc822)%> <span class="glyphicon glyphicon-calendar"></span>
+                                        </div>
+                                        <div class="form-group ">
+                                            <label class="control-label" for="inputError">Raise Date</label>
+                                            
+                                            <%=@employee.raise_date.nil? ? "" : @employee.raise_date.to_formatted_s(:rfc822)%> <span class="glyphicon glyphicon-calendar"></span>
+                                        </div>
+                                        <div class="form-group ">
+                                            <label class="control-label" for="inputError">Raise Amount</label>
+                                            
+                                            <%=@employee.raise_amount.nil? ? "" : number_to_currency(@employee.raise_amount)%>
+                                        </div>
                                     
                                     
                                         <div class="form-group">
                                             <label for="disabledSelect">Email</label>
-                                                <input class="form-control" name="" id="disabledInput" type="text" value="<%=current_user.email%>" disabled>
+                                               <%=@employee.email.nil? ? "" : current_user.email%>
                                         </div>
+                                        
                                         <div class="form-group ">
                                             <label class="control-label"  for="inputError">SS#</label>
                                             
-                                           <%= best_in_place  @employee, :ss_no, :type => :input ,:classes=>"form-control"%> 
+                                           <%=@employee.ss_no_enc.nil? ? "" : @employee.ss_no_dec %> 
                                         </div>
                                         <div class="form-group ">
                                             <label class="control-label" for="inputError">County</label>
                                             
-                                               <%= best_in_place  @employee, :county, :type => :input ,:classes=>"form-control"%>
+                                               <%=@employee.county.nil? ? "" : @employee.county%>
                                         </div>
                                         
                                           

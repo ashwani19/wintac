@@ -1,34 +1,40 @@
+#Class use to manage the custmomer
 class CustomersController < ApplicationController
 
-  respond_to :html, :json
+ #skip_before_filter  :verify_authenticity_token
+ skip_before_filter :verify_authenticity_token, :if => Proc.new { |c| c.request.format == 'application/json' }
   # Customer Home page
   def customer_home
-  @customer=User.find(current_user.id).customers.first
+  if customer_required?
+    @customer=User.find(current_user.id).customers.first
+  end
   end
   def customer_profile
-     @customer=User.find(current_user.id).customers.first
+    if customer_required?
+      @customer=User.find(current_user.id).customers.first
+    end
   end
   # Update customer row data
   def update_row
-    
+    if customer_required?
       @user=User.find(current_user.id)
       begin
         @customer=@user.customers.first
-        @customer.update_attributes(address1: params[:address1],address2: nil, business:params[:business], city: params[:city], company_name:params[:company_name], county:params[:county], email_1: nil, name: params[:name], phone1:params[:phone1] , phone2:params[:phone2], salutation:params[:salutation], state:params[:state])
-        @user.address=params[:address1]
+        #@customer.update_attributes(address1: params[:address1].strip,address2: nil,zip:params[:zip], business:params[:business], city: params[:city], company_name:params[:company_name], county:params[:county], email_1: nil, name: params[:name], phone1:params[:phone1] , phone2:params[:phone2], salutation:params[:salutation], state:params[:state])
+        @customer.update_attributes(employee_params)
+        @user.address=params[:customer][:address1].strip
         @user.save
         redirect_to customers_customer_home_path ,:notice=>"Update succesfully!"
       rescue Exception => e
         redirect_to customers_customer_update_path ,:notice=>"#{e.message}"
       end
+    end
   end
   # customer update page action 
   def customer_update
-    if !current_user.nil?
+    
+    if customer_required?
       @customer=current_user.customers.first
-      
-      else
-        redirect_to root_url, :notice => "Please Sign in!"
     end
   end
 
@@ -39,6 +45,7 @@ class CustomersController < ApplicationController
       @user.before_add_method(params[:role])
       @customer=Customer.new(name: @user.full_name,user_id: @user.id,email: @user.email)
       @customer.transaction do
+
         if @user.save
            @customer.user_id=@user.id
            @customer.save
@@ -67,4 +74,12 @@ class CustomersController < ApplicationController
       @customer.update_attributes(params[:customer])
       respond_with @customer
   end
+
+  private
+    
+
+    # Never trust parameters from the scary internet, only allow the white list through.
+    def employee_params
+      params.require(:customer).permit(:address1, :zip,:user_id,:address2, :business, :city, :company_name, :county, :email, :email_1, :name, :phone1, :phone2, :salutation, :state)
+    end
 end
