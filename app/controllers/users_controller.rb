@@ -1,8 +1,9 @@
 #Class use for user controle and manage 
 class UsersController < ApplicationController
     skip_before_filter :verify_authenticity_token, :if => Proc.new { |c| c.request.format == 'application/json' }
+    respond_to :json
     def index
-  	
+        respond_with User.where("user_type!='admin'")
     end
 #New User  action page
     def new

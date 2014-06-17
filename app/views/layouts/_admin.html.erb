@@ -21,7 +21,7 @@
         <ul class="text-right bt-logout">
           <li style="list-style-type:none;"><% if !current_user.nil? %>
           <span class="text-success">  Logged in as <%if current_user.user_type=='admin' %> Admin <%= current_user.first_name %> <i class="glyphicon glyphicon-user"></i><%else%> <%= current_user.first_name %> <i class="glyphicon glyphicon-user"></i><%end%></span>
-          <%= link_to "<i class='glyphicon glyphicon-off'></i> Log out".html_safe, log_out_path ,:class=>"btn btn-primary"%><%end%>
+          <%= link_to "<i class='glyphicon glyphicon-off'></i> Log out".html_safe, sign_out_path ,:class=>"btn btn-primary"%><%end%>
           </li>
         </ul>
       </div><!-- /.navbar-collapse -->

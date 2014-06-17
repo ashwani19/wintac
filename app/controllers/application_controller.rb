@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  protect_from_forgery with: :null_session, if: Proc.new { |c| c.request.format == 'application/json' }
+  #protect_from_forgery with: :null_session, if: Proc.new { |c| c.request.format == 'application/json' }
   helper_method :current_user,:logged_in?, :admin_logged_in?,:customer_required?,:employee_required?,:admin_required?
   
   rescue_from CanCan::AccessDenied do |exception|

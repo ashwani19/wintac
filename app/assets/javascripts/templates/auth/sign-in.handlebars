@@ -1,0 +1,28 @@
+<div class="form info">
+    <fieldset class="scheduler-border">
+       <div class="text-danger" id="error"></div>
+        <legend class="scheduler-border"><h1><i class="glyphicon glyphicon-user"></i> Login</h1></legend>
+<form {{action "signIn" on="submit"}} role="form">
+    <label class="control-label" for="email">Email</label>
+
+    <div class="form-group input-group">
+        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+        {{input type='text' value=email class="form-control"}}
+    </div>
+    <label class="control-label" for="password">Password</label>
+    <div class="form-group input-group">
+
+        <span class="input-group-addon"> <i class="glyphicon glyphicon-lock"></i></span>
+        {{input type='password' value=password class="form-control"}}
+        </div>
+    <div class="row">
+        <div class="col-md-12">
+    {{input type='checkbox' checked=remember }}
+        <label>Remember me</label></p>
+        </div>
+    </div>
+    <div class="form-group button"> <button class="btn btn-primary">Sign In</button></div>
+</form>
+</fieldset>
+</div>
+

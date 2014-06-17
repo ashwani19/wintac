@@ -1,4 +1,5 @@
 IntacWebPortal::Application.routes.draw do
+
   get "ember/index"
   get "ember" => "ember#index"
 
@@ -35,14 +36,18 @@ IntacWebPortal::Application.routes.draw do
   get "sessions/new"
   get "users/customer_profile"
   get "users/new"
-  get "admin_login"=>"admin#new" ,:as=>"admin_login" 
-get "log_out" => "sessions#destroy", :as => "log_out"
+  get "admin_login"=>"admin#new" ,:as=>"admin_login"
+post   'sign_in'  => 'sessions#create'
+#change root of signout for emberjs
+  delete 'sign_out' => 'sessions#destroy'
+  #get "sign_out" => "sessions#destroy", :as => "log_out"
 get "log_in" => "sessions#new", :as => "log_in"
 get "sign_up" => "users#new", :as => "sign_up"
 get "sign_up_customer"=>"customers#new" ,:as=>"sign_up_customer"
 get "sign_up_employee"=>"employees#new" ,:as=>"sign_up_employee"
 
 root :to => "home#home"
+  get '*ember' => 'home#home'
 resources :users
 resources :sessions
 resources :password_resets

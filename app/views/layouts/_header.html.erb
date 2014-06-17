@@ -5,7 +5,7 @@
   <% if !current_user.nil? %>
 
   <span class="text-success">  Logged in as <%if current_user.user_type=='admin' %> Admin <%= current_user.first_name %><%else%> <%= current_user.first_name %> <%end%></span>
-    <%= link_to "<i class='glyphicon glyphicon-off'></i> Log out".html_safe, log_out_path ,:class=>"btn btn-primary"%>
+    <%= link_to "<i class='glyphicon glyphicon-off'></i> Log out".html_safe, sign_out_path ,:class=>"btn btn-primary"%>
   <% else %>
     <%= link_to "Sign up as Customer", sign_up_customer_path ,:class=>"btn btn-primary"%> &nbsp; <%= link_to "Sign up as Employee", sign_up_employee_path ,:class=>"btn btn-primary"%>
     <%= link_to "Log In", log_in_path,:class=>"btn btn-primary" %>
