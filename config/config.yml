@@ -1,0 +1,6 @@
+production:
+  domain_url: "http://emberapp-inveera.herokuapp.com"
+development:
+  domain_url: "http://localhost:3000"
+test:
+  domain_url: "http://localhost:3000"
