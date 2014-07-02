@@ -1,0 +1,16 @@
+wintac web portal
+
+    Prior to initial run:
+        Make sure Postgresql is installed
+        There is a postgres user with the password of postgres
+    Initial run:
+        Get the gems for the project
+            bundle install
+        Create the database
+            rake db:create
+        Migrate the database
+            rake db:migrate
+    Start server
+        rails server
+    View in browser
+        http://localhost:3000
