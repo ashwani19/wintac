@@ -1,6 +1,7 @@
 class RolesController < ApplicationController
+	load_and_authorize_resource
 	def index
-		@roles =Role.all
+		@roles =Role.order("name asc")
 		render :json=> @roles
 	end
 
@@ -30,16 +31,23 @@ class RolesController < ApplicationController
 	def search_roles
 		if !params[:search_word].blank?
 			if params[:search_type]=="name"
-				role_list = Role.where("name LIKE ?","#{params[:search_word]}%")
+				role_list = Role.where("name iLIKE ?","#{params[:search_word]}%")
 				render :status => 200, :json => {:role_list=> role_list}
 			elsif params[:search_type]=="description"
-				role_list = Role.where("description LIKE ?","#{params[:search_word]}%")
+				role_list = Role.where("description iLIKE ?","#{params[:search_word]}%")
 				render :status => 200, :json => {:role_list=> role_list}
 			end
 		else
-			@roles =Role.alls
+			@roles =Role.all
 			render :json=>{:role_list=> @roles}
 		end
+	end
+	def sorting
+		order=params[:order]
+		sort_by=params[:sort_by]
+
+		@roles =Role.order("#{sort_by} #{order}")
+		render :json=> @roles
 	end
 	private
 	

@@ -1,26 +1,29 @@
 Rails.application.routes.draw do
   get 'roles' => 'roles#index'
-
+  get 'employees/serve/:id'=>'employees#serve',:as=>'download'
   post 'roles/create'
+  post '/user_data/user_active'
   post 'roles/update'
   get 'roles/edit'
   get 'roles/search_roles'
   post 'employees/update_row'
   get 'employees/update_row'
- get 'user_data/index'
-  root :to=>'home#index'
+  get 'user_data/index'
+  get 'user_data/search_users'
   post 'user_data/active_user'
- post 'user_data/edit_user'
- get 'user_data/update_user'
+  post 'user_data/edit_user'
+  post 'user_data/update_user'
+  get "user_data/sorting"
+  get "roles/sorting"
   devise_for :users,:controllers => { :sessions => "json_sessions" ,:registrations => "registrations" ,:passwords=>"passwords"}
- devise_scope :user do
+  devise_scope :user do
    post 'edit_password_em', :to => 'passwords#edit_password_em'
-   get 'search_users',:to => 'json_sessions#search_users'
- end
+  end
+  
   resources :customers
-
   resources :employees
   resource :user_data
+  root :to=>'home#index'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

@@ -1,4 +1,5 @@
 class EmployeesController < ApplicationController
+  load_and_authorize_resource
 	def update_row
    @user=User.find(params[:user_id])
 
@@ -7,7 +8,7 @@ class EmployeesController < ApplicationController
     @employee=@user.employee
     a=@employee.update_attributes(employee_params)
 
-    @user.addres=params[:employee][:address].strip if !params[:employee][:address].blank?
+    @user.address=params[:employee][:address].strip if !params[:employee][:address].blank?
     @user.save
     if !params[:employee][:doc_or_image].blank?
 

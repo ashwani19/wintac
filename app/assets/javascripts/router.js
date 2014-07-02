@@ -16,39 +16,74 @@ Deerfield.Router.map(function() {
         return this.route("registration");
     });
 
-Deerfield.UserManagementRoute = Ember.Route.extend({
-    model: function(params) {
-        return Em.$.ajax({
-            type: 'get',
-            url:'/user_data/index',
-            success : function(){
+Deerfield.AuthenticatedRoute = Ember.Route.extend({
+   events: {
+    error: function(error, transition) {
+      if (error.status === 401) {
+        var loginController= this.controllerFor("login");
+        var error_message= "You are not authorized to access this page!"
+        loginController.set('auth_error_message',error_message);
+        loginController.set('attemptedTransition',transition);        
+        this.transitionTo('login');
+    } 
+    else {
+        alert('Something went wrong, try later');
+    }
+}
+}
 
-            }
-        });
+});
+
+Deerfield.UserManagementRoute = Deerfield.AuthenticatedRoute.extend({
+
+    model: function(params) {
+        return $.getJSON('/user_data/index');
     }
 });
-Deerfield.RoleManagementRoute = Ember.Route.extend({
-      model: function(params) {
-        return this.store.find('role');
-    }
+Deerfield.RoleManagementRoute = Deerfield.AuthenticatedRoute.extend({
+  model: function(params) {
+    return this.store.find('role');
+}
 });
 Deerfield.AddRoleRoute = Ember.Route.extend({
     model: function(params) {
         return params;
+    },
+    beforeModel: function(transition) {
+        if (!this.controllerFor("auth").get("currentUser.email"))
+            {
+                var loginController= this.controllerFor("login");
+                var error_message= "You are not authorized to access this page!"
+                loginController.set('auth_error_message',error_message);
+                loginController.set('attemptedTransition',transition);        
+                this.transitionTo('login');
+            }
     }
 });
-Deerfield.EditRoleRoute = Ember.Route.extend({
+Deerfield.EditRoleRoute = Deerfield.AuthenticatedRoute.extend({
     model: function(params) {
-     return Em.$.ajax({
-            type: 'get',
-            url:'/roles/edit',
-            data:{
-                id: params.id
-            },
-            success : function(){
+       return Em.$.ajax({
+        type: 'get',
+        url:'/roles/edit',
+        data:{
+            id: params.id
+        },
+        success : function(){
+
+        }
+    });
+   }
+});
+Deerfield.EditUserRoute = Deerfield.AuthenticatedRoute.extend({
+    model: function(params) {
+        return Em.$.ajax({
+            url:'/user_data/edit_user',
+            type: 'post',
+            data:{'user_id': params.id},
+            success: function(){
 
             }
-        });
+        })
     }
 });
 Deerfield.UsersPasswordEditRoute = Ember.Route.extend({
@@ -75,20 +110,30 @@ Deerfield.LoginRoute = Ember.Route.extend({
     model: function() {
         return Ember.Object.create();
     },
-    setupController: function(controller, model) {
-        controller.set('content', model);
-        return controller.set("errorMsg", "");
+    beforeModel: function(transition) {
+        if (this.controllerFor("auth").get("currentUser.email"))
+            {
+                this.transitionTo("home");
+            }
     },
-    actions: {
-        login: function() {
-            log.info("Logging in...");
-            return this.controllerFor("auth").login(this);
-        },
-        cancel: function() {
-            log.info("cancelling login");
-            return this.transitionToRoute('home');
-        }
+    setupController: function(controller, model) {
+
+          controller.set('content', model);
+          setTimeout(function() {
+             controller.set('auth_error_message',null);
+         }, 5000);
+          return controller.set("errorMsg", "");
+   },
+  actions: {
+    login: function() {
+        log.info("Logging in...");
+        return this.controllerFor("auth").login(this);
+    },
+    cancel: function() {
+        log.info("cancelling login");
+        return this.transitionToRoute('home');
     }
+}
 });
 
 Deerfield.RegistrationRoute = Ember.Route.extend({

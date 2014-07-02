@@ -5,34 +5,6 @@
 Deerfield.AuthController = Ember.ObjectController.extend({
     currentUser: null,
     isAuthenticated: Em.computed.notEmpty("currentUser.email"),
-    login: function(route) {
-      var me;
-      me = this;
-      return $.ajax({
-        url: Deerfield.urls.login,
-        type: "POST",
-        data: {
-          "user[email]": route.currentModel.email,
-          "user[password]": route.currentModel.password,
-          "user[remember_me]": route.currentModel.remember_me
-      },
-      success: function(data) {
-          // log.log("Login Msg " + data.user.dummy_msg);
-          me.set('currentUser', data.user);
-           //window.location.href="/#/home"
-           return route.transitionTo('home');
-       },
-       error: function(jqXHR, textStatus, errorThrown) {
-          if (jqXHR.status === 401) {
-            return route.controllerFor('login').set("errorMsg", "That email/password combo didn't work.  Please try again");
-        } else if (jqXHR.status === 406) {
-            return route.controllerFor('login').set("errorMsg", "Request not acceptable (406):  make sure Devise responds to JSON.");
-        } else {
-            return p("Login Error: " + jqXHR.status + " | " + errorThrown);
-        }
-    }
-});
-  },
   register: function(route) {
       var me;
       me = this;
@@ -187,10 +159,10 @@ Deerfield.RoleManagementController = Ember.ArrayController.extend({
                 },
                 success: function(data) {
                     if ($.isEmptyObject(data.role_list)==false){
-                        me.set("role_list",data.role_list);
+                        me.set('model', data.role_list);
                     }
                     else{
-                        me.set("role_list",null);
+                        me.set('model', data.role_list);
                     }
 
                 },
@@ -198,8 +170,36 @@ Deerfield.RoleManagementController = Ember.ArrayController.extend({
                     return route.controllerFor('registration').set("errorMsg", "Sorry ! try later");
                 }
             });
-        }
+        },
+         sort:function(sort_by){
+        var me=this
+        var desc=$("#desc").val();
+        
+        return Em.$.ajax({
+            url : "roles/sorting",
+            type: "get",
+            data:{'order' :$("#desc").val(),'sort_by': sort_by},
+            success:function(data){
+              if (desc=='desc'){
+               $("#desc").val("asc");
+               $("#"+sort_by).removeClass("caret");
+               $("#"+sort_by).addClass("caret-1");
+                }
+             else{
+                $("#desc").val("desc");
+                $("#"+sort_by).removeClass("caret-1");
+               $("#"+sort_by).addClass("caret");
+                }
+                if ($.isEmptyObject(data.roles)==false){
+                        me.set("model",data.roles);
+                    }
+                    else{
+                        me.set("model",null);
+                    }
+            }
+        })
     }
+  }
 
 });
 Deerfield.UserManagementController = Ember.ObjectController.extend({
@@ -223,15 +223,15 @@ Deerfield.UserManagementController = Ember.ObjectController.extend({
         search_user: function(route){
             var me = this;
             return Em.$.ajax({
-                url: '/search_users.json',
+                url: 'user_data/search_users',
                 type: "GET",
                 data: {
                     "search_word": $("#keyword").val(),
                     "search_type": $("#mode").val()
                 },
                 success: function(data) {
-                    if ($.isEmptyObject(data.json_sessions)==false){
-                        me.set("user_data",data.json_sessions);
+                    if ($.isEmptyObject(data.user_data)==false){
+                        me.set("user_data",data.user_data);
                     }
                     else{
                         me.set("user_data",null);
@@ -241,7 +241,59 @@ Deerfield.UserManagementController = Ember.ObjectController.extend({
                     return route.controllerFor('registration').set("errorMsg", "Sorry ! try later");
                 }
             });
-        }
+        },
+        deactive: function()
+        {
+          var me=this;
+          var data= new FormData($('#myForm')[0])
+            return Em.$.ajax({
+            url: '/user_data/user_active',
+            type: "POST",
+             processData: false,
+             contentType: false,
+             data: data,
+             success: function(data){
+                
+                $("#select-all").prop('checked', false); 
+                if ($.isEmptyObject(data.user_data)==false){
+                        me.set("user_data",data.user_data);
+                    }
+                    else{
+                        me.set("user_data",null);
+                    }
+             }
+            
+        });
+     },
+     sort:function(sort_by){
+        
+        var me=this
+        var desc=$("#desc").val();
+        
+        return Em.$.ajax({
+            url : "user_data/sorting",
+            type: "get",
+            data:{'order' :$("#desc").val(),'sort_by': sort_by},
+            success:function(data){
+              if (desc=='desc'){
+               $("#desc").val("asc");
+               $("#"+sort_by).removeClass("caret");
+               $("#"+sort_by).addClass("caret-1");
+                }
+             else{
+                $("#desc").val("desc");
+                $("#"+sort_by).removeClass("caret-1");
+               $("#"+sort_by).addClass("caret");
+                }
+                if ($.isEmptyObject(data.user_data)==false){
+                        me.set("user_data",data.user_data);
+                    }
+                    else{
+                        me.set("user_data",null);
+                    }
+            }
+        })
+     }
     }
   });
 
@@ -323,8 +375,10 @@ Deerfield.PasswordResetController = Ember.ObjectController.extend({
     }
 });
 Deerfield.EditUserController = Ember.ObjectController.extend({
-
     role: Em.computed.any("user.user_type"),
+    check_role_admin: function() {
+        return ( this.get('role_admin') === 'admin' );
+    }.property('role_admin'),
     check_role_employee: function() {
         return ( this.get('role') === 'employee' );
     }.property('role'),
@@ -333,26 +387,15 @@ Deerfield.EditUserController = Ember.ObjectController.extend({
     }.property('role'),
     actions: {
         editUser: function() {
-        var me=this;
+            var me=this;
+            var data= new FormData($('#myForm')[0])
             Em.$.ajax({
                 url: "/user_data/update_user",
-                type: 'get',
-                data: {
-                    'user_id': $("#user_id").val(),
-                    'first_name' : $("#first_name").val(),
-                    'last_name' : $("#last_name").val(),
-                    'customer[name]' : $("#first_name").val(),
-                    'customer[address1]' : $("#addres").val(),
-                    'customer[state]' : $("#state").val(),
-                    'customer[zip]' : $("#zip").val(),
-                    'customer[city]' : $("#city").val(),
-                    'customer[business]' : $("#business").val(),
-                    'customer[company_name]': $("#company_name").val(),
-                    'customer[phone1]': $("#phone1").val(),
-                    'customer[phone2]': $("#phone2").val(),
-                    'customer[salutation]': $("#salutation").val(),
-                    'customer[county]': $("#county").val()
-                },
+                type: 'post',
+                processData: false,
+                contentType: false,
+                data: data,
+                
                 success: function(){
                    return me.transitionToRoute("user_management");
                 },
@@ -450,5 +493,49 @@ Deerfield.EditRoleController = Ember.ObjectController.extend({
  }
 }
 });
+Deerfield.LoginController = Ember.ObjectController.extend({
+    needs: ['auth'],
+    user:   Em.computed.alias("controllers.auth.currentUser"),
+    auth_error_message: null,
+    attemptedTransition: null,
+    actions: {
+        login: function(route) {
+          var me;
+          me = this;
+          return $.ajax({
+            url: Deerfield.urls.login,
+            type: "POST",
+            data: {
+              "user[email]": $("#email").val(),
+              "user[password]": $("#password").val(),
+              "user[remember_me]": $("#remember_me").val()
+          },
+          success: function(data) {
+            var attemptedTransition= me.get('attemptedTransition');
+            if (attemptedTransition){
+                me.set('user', data.user);
+                attemptedTransition.retry();
+                me.set('attemptedTransition',null);
+            }
+            else
+            {   
+                me.set('user', data.user);
+               return me.transitionTo('home'); 
+            }            
+            
+       },
+       error: function(jqXHR, textStatus, errorThrown) {
+          if (jqXHR.status === 401) {
+            return route.controllerFor('login').set("errorMsg", "That email/password combo didn't work.  Please try again");
+        } else if (jqXHR.status === 406) {
+            return route.controllerFor('login').set("errorMsg", "Request not acceptable (406):  make sure Devise responds to JSON.");
+        } else {
+            return p("Login Error: " + jqXHR.status + " | " + errorThrown);
+        }
+    }
+});
 
+},
+}
+});
 

@@ -1,3 +1,4 @@
+
 {{#if check_role_employee}}
    {{partial 'employee'}}
     <!--<img src="/assets/construction.jpg"/>-->
@@ -18,6 +19,7 @@
             </div>
             <!--end page header -->
         </div>
+        <form id="myForm" data-remot="true">
         <div class="row">
             <div class="col-lg-12">
                 <!-- Form Elements -->
@@ -25,42 +27,42 @@
                     <div class="panel-heading">
                         Please update your information to proceed..
                     </div>
-                    <input type="hidden" value={{unbound user.id}} id="user_id" />
+                    <input type="hidden" value={{unbound user.id}} id="user_id" name="user_id">
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-lg-6">
-                                <form role="form" action="" method="post">
+                                
                                     <div class="form-group">
                                         {{#if check_role_customer}}
                                         <label>Company Name</label>
 
-                                        {{input type="text" class="form-control" name="company_name" placeholder="Company Name" value= user.customers.firstObject.company_name id="company_name"}}
+                                        {{input type="text" class="form-control" name="customer[company_name]" placeholder="Company Name" value= user.customer.company_name id="company_name"}}
                                         {{else}}
-                                            <input class="form-control" name="first_name" placeholder="Name" value={{unbound user.first_name}} id="first_name">
+                                            <input class="form-control" name="customer[first_name]" placeholder="Name" value={{unbound user.first_name}} id="first_name">
                                         {{/if}}
                                     </div>
                                     <div class="form-group">
                                         <label>Address</label>
-                                        <textarea class="form-control" name="address1" rows="3" id="addres">{{unbound user.addres}}</textarea>
+                                        <textarea class="form-control" name="customer[address1]" rows="3" id="address">{{unbound user.address}}</textarea>
                                     </div>
                                     <div class="form-group">
                                         <label>City</label>
-                                        <input class="form-control" name="city" placeholder="Enter text" value={{unbound user.customer.city}} id="city">
+                                        <input class="form-control" name="customer[city]" placeholder="Enter text" value={{unbound user.customer.city}} id="city">
                                     </div>
                                     <div>
                                         <label>State</label>
-                                        <input class="form-control" name="state" placeholder="Enter text" value={{unbound user.customer.state}} id="state">
+                                        <input class="form-control" name="customer[state]" placeholder="Enter text" value={{unbound user.customer.state}} id="state">
                                     </div>
                                     <div>
                                         <label>Zip</label>
-                                        <input class="form-control" name="zip" placeholder="Enter text" id="zip" value={{unbound user.first.customers.zip}}>
+                                        <input class="form-control" name="customer[zip]" placeholder="Enter text" id="zip" value={{unbound user.customer.zip}}>
                                     </div>
 
 
 
                                     <div class="form-group">
                                         <label>Business</label>
-                                        <select class="form-control" name="business" id="business">
+                                        <select class="form-control" name="customer[business]" id="business">
                                             <option value="CONTRACTOR">CONTRACTOR</option>
                                             <option value="DIRECT MAIL">DIRECT MAIL</option>
                                             <option value="NEWS PAPER AD">NEWS PAPER AD</option>
@@ -79,48 +81,50 @@
 
                                 <div class="form-group">
                                     <label class="control-label" for="inputSuccess">First Name</label>
-                                    <input type="text" class="form-control" id="first_name"  name="first_name" value={{unbound user.first_name}}>
+                                    <input type="text" class="form-control" id="first_name"  name="customer[first_name]" value={{unbound user.first_name}}>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label" for="inputSuccess">Last Name</label>
-                                    <input type="text" class="form-control" id="last_name"  name="last_name" value={{unbound user.last_name}}>
+                                    <input type="text" class="form-control" id="last_name"  name="customer[last_name]" value={{unbound user.last_name}}>
                                 </div>
                                 <div class="form-group ">
                                     <label class="control-label"  for="inputWarning">Phone No-1</label>
-                                    <input type="text" class="form-control" name="phone1" id="phone1"value={{unbound user.customer.phone1}} >
+                                    <input type="text" class="form-control" name="customer[phone1]" id="phone1"value={{unbound user.customer.phone1}} >
                                 </div>
                                 <div class="form-group ">
                                     <label class="control-label" for="inputError">Phone No-2</label>
-                                    <input type="text" class="form-control" name="phone2" id="phone2" value="">
+                                    <input type="text" class="form-control" name="customer[phone2]" id="phone2" value="">
                                 </div>
 
 
 
                                 <div class="form-group">
                                     <label for="disabledSelect">Email</label>
-                                    <input class="form-control" name="email" id="email" type="text" value={{unbound user.email}} disabled>
+                                    <input class="form-control" name="customer[email]" id="email" type="text" value={{unbound user.email}} disabled>
                                 </div>
                                 <div class="form-group ">
                                     <label class="control-label"  for="inputError">Solutations</label>
-                                    <input type="text" class="form-control" name="salutation" value={{unbound user.customer.salutation}} id="salutation">
+                                    <input type="text" class="form-control" name="customer[salutation]" value={{unbound user.customer.salutation}} id="salutation">
 
                                 </div>
                                 <div class="form-group ">
                                     <label class="control-label" for="inputError">County</label>
-                                    <input type="text" class="form-control" name="county" id="county" placeholder="Font Awesome Icon" value={{unbound user.customer.county}} >
+                                    <input type="text" class="form-control" name="customer[county]" id="county" placeholder="Font Awesome Icon" value={{unbound user.customer.county}} >
                                 </div>
 
                                 <button type="submit" {{action 'editUser'}} class="btn btn-primary">Update</button>
                                 <button type="reset" class="btn btn-success">Reset Button</button>
-                                </form>
+                                
                             </div>
                         </div>
                     </div>
                 </div>
                 <!-- End Form Elements -->
             </div>
+            </form>
         </div>
     </div>
+    
     <!-- end page-wrapper -->
 
 </div>

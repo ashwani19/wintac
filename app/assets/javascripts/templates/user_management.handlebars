@@ -15,23 +15,23 @@
          <button {{action "search_user"}} type="submit" class="btn btn-primary" >Search</button>
   </div>
 
-<input type="hidden" name="desc" value="" id="desc"/>
+<input type="hidden" name="desc" value="desc" id="desc"/>
 <!--end-->
 <p><div class="text-right">{{view Deerfield.MenuItem href="#/registration" label="Add User" class="btn btn-primary"}}</div></p>
 <div id="search_page">
 </div>
-<form >
-<div class="text-left dlt-btn"><input type="submit" id="d" value="Deactivate" class="btn btn-warning"/></div>
+<form action="/user_data/user_active" method="post" data-remote="true" id="myForm">
+<div class="text-left dlt-btn"><input type="submit" id="active_inactive" value="Deactivate" {{action 'deactive'}} class="btn btn-warning"/></div>
 
 <table class="table table-bordered table-hover">
  <thead>
 <tr class="bg-primary">
 <th> <input type="checkbox" name="checkbox" id="select-all" /> All</th>
-<th><span class="tr-cursor" >Name<b class="caret"></b></span></th>
-<th><span class="tr-cursor" >Address<b class="caret"></b></span></th>
+<th><span  class="tr-cursor" {{action 'sort' "first_name"}} >Name<b id="first_name" class="caret"></b></span></th>
+<th><span class="tr-cursor" {{action 'sort' "address"}}>Address<b id="address" class="caret"></b></span></th>
 
-<th><span class="tr-cursor" >Type<b class="caret"></b></span></th>
-<th><span class="tr-cursor" >Created Date<b class="caret"></b></span></th>
+<th><span class="tr-cursor" {{action 'sort' "user_type"}}>Type<b id="user_type" class="caret"></b></span></th>
+<th><span class="tr-cursor" {{action 'sort' "created_at"}}>Created Date<b id="created_at" class="caret"></b></span></th>
 <th>Active</th>
 <th>Edit User</th>
 </tr>
@@ -42,7 +42,7 @@
     <tr id="" class="active">
     	<td><input type="checkbox" name="users[]" id="checkbox-{{unbound id}}" value={{unbound id}} />  </td>
         <td>{{first_name}}</td>
-    	<td>{{addres}}</td>
+    	<td>{{address}}</td>
 
     	<td>{{user_type}}</td>
     	<td>{{datetime created_at format="DD/MM/YYYY"}}</td>
