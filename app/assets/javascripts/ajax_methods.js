@@ -10,11 +10,10 @@ function find_Type()
 {
     if($("#role").val()=='employee')
     {
-        $("#emp").show();
         $("#cust").hide();
+        $("#company_name").val("");
     }
     else if($("#role").val()=='customer'){
-        $("#emp").hide();
         $("#cust").show();
     }
 }

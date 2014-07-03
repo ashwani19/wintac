@@ -4,12 +4,12 @@ class ApplicationController < ActionController::Base
   #protect_from_forgery with: :exception
   respond_to :html, :json
   helper_method :current_user_json
-
   before_filter :update_sanitized_params, if: :devise_controller?
-
-   rescue_from CanCan::AccessDenied do |exception|
+  rescue_from CanCan::AccessDenied do |exception|
     render :status=>401, :json=>{:message=>"unauthorized"}
   end
+
+  # Send current user to ember functions after logging in. 
   def current_user_json
     if current_user
       user=Hash.new
@@ -24,6 +24,6 @@ class ApplicationController < ActionController::Base
   end
 
   def update_sanitized_params
-    devise_parameter_sanitizer.for(:sign_up) {|u| u.permit(:name, :email, :password, :password_confirmation)}
+    devise_parameter_sanitizer.for(:sign_up) {|u| u.permit(:first_name, :email, :password, :password_confirmation)}
   end
 end

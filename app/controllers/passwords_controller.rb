@@ -7,9 +7,7 @@ class PasswordsController < Devise::PasswordsController
   end
 
   def create
-    
     self.resource = resource_class.send_reset_password_instructions(resource_params)
-
     if successfully_sent?(resource)
       render :json=>{:message=>"Congratulations! Password reset mail is sent to your account."},:status=>201
     else
@@ -23,7 +21,6 @@ class PasswordsController < Devise::PasswordsController
 
   def update
     self.resource = resource_class.reset_password_by_token(resource_params)
-
     if resource.errors.empty?
       resource.unlock_access! if unlockable?(resource)
       flash_message = resource.active_for_authentication? ? :updated : :updated_not_active
@@ -34,8 +31,8 @@ class PasswordsController < Devise::PasswordsController
       respond_with resource
     end
   end
-  def edit_password_em
 
+  def edit_password_em
     original_token       = params[:user][:reset_password_token]
     reset_password_token = Devise.token_generator.digest(self, :reset_password_token, original_token)
     @user= User.where(:reset_password_token=>reset_password_token)
@@ -50,6 +47,7 @@ class PasswordsController < Devise::PasswordsController
       end
     end
   end
+
   protected
 
     def after_sending_reset_password_instructions_path_for(resource_name)
@@ -67,6 +65,5 @@ class PasswordsController < Devise::PasswordsController
     def user_params
       params.require(:user).permit(:password,:reset_password_token)
     end
-
 
 end

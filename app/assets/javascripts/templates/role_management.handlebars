@@ -4,7 +4,7 @@
         <input type="hidden" name="order" id="order" value="0"/>
         <select class="form-control target " id="role_mode" >
             <option  value="name">Name</option>
-            <option  value="address">Description</option>
+            <option  value="description">Description</option>
         </select>
         <button type="submit" class="btn btn-primary" {{action "search_role"}}>Search</button>
     </div>
@@ -34,7 +34,7 @@
         <td>{{role.name}}</td>
      		<td>{{role.description}}</td>
      		<td>{{datetime role.created_at format="DD/MM/YYYY"}}</td>
-     		<td>{{#link-to 'edit_role' id class="btn btn-primary" }}Edit{{/link-to}}</td>
+     		<td>{{#link-to 'edit_role' role.id class="btn btn-primary" }}Edit{{/link-to}}</td>
         </tr>
 	{{/each}}
 </tbody>

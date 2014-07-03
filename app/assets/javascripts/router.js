@@ -147,7 +147,12 @@ Deerfield.RegistrationRoute = Ember.Route.extend({
         },
         cancel: function() {
             log.info("cancelling registration");
-            return this.transitionTo('user_management');
+            if(this.controllerFor("auth").get("currentUser.email")){
+                return this.transitionTo('user_management');   
+            }
+            else{
+               return this.transitionTo('home'); 
+            }
         }
     }
 });

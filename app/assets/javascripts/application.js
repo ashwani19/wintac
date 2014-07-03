@@ -16,7 +16,6 @@
 
 //= require bootstrap
 //= require bootstrap-datepicker
-
 //= require moment
 //= require handlebars
 //= require ember
@@ -42,3 +41,90 @@ $( document ).ready(function() {
         
     })
 });
+
+function validate_registration_form(){
+    var decision = true;
+    if($("#role").val()=='employee')
+    {
+        if($("#name").val().length==0)
+        {
+            $("#emp_name_error").html("Please enter name!")
+            decision = false;
+        }
+        else{
+            $("#emp_name_error").html("")
+        }
+    }
+    else if($("#role").val()=='customer'){
+        if($("#company_name").val().length==0)
+        {
+            $("#cust_name_error").html("Please enter Company name!");
+            decision = false;
+        }
+        else{
+            $("#cust_name_error").html("")
+        }
+         if($("#name").val().length==0)
+        {
+            $("#emp_name_error").html("Please enter name!")
+            decision = false;
+        }
+        else{
+            $("#emp_name_error").html("")
+        }
+    }
+    var emailRegex = new RegExp(/^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$/i);
+    var valid = emailRegex.test($("#email").val());
+    if(!valid){
+        $("#email_error").html("Please enter a valid email address!");
+        decision = false;
+    }
+    else{
+        $("#email_error").html("")
+    }
+
+
+    if($("#password").val().length<6){
+        $("#pass_error").html("Please enter minimum 6 characters!");
+        decision = false;
+    }
+    else{
+        $("#pass_error").html("")
+    }
+
+
+    if($("#password_confirmation").val()!= $("#password").val()){
+        $("#pass_match_error").html("Passwords not matching!");
+        decision = false;
+    }
+    else{
+        $("#pass_match_error").html("")
+    }
+
+    return decision;
+}
+
+function validate_login_form(){
+	var decision = true;
+    var emailRegex = new RegExp(/^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$/i);
+ 	var valid = emailRegex.test($("#email").val());
+    if(!valid){
+    	$("#email_error").html("Please enter a valid email address!");
+    	decision = false;
+    }
+    else{
+		$("#email_error").html("")
+	}
+
+
+    if($("#password").val().length<=0){
+    	$("#password_error").html("Please enter password to login!");
+    	decision = false;
+    }
+    else{
+		$("#password_error").html("")
+	}
+
+
+    return decision;
+}

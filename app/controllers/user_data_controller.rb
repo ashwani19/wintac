@@ -14,13 +14,13 @@ class UserDataController < ApplicationController
       render :status => 200, :json => user_list
     elsif !params[:search_word].blank?
       if params[:search_type]=="name"
-        user_list = User.where("first_name iLIKE ?","#{params[:search_word]}%")
+        user_list = User.where("first_name iLIKE ?","%#{params[:search_word]}%")
         render :status => 200, :json => user_list
       elsif params[:search_type]=="address"
-        user_list = User.where("address iLIKE ?","#{params[:search_word]}%")
+        user_list = User.where("address iLIKE ?","%#{params[:search_word]}%")
         render :status => 200, :json => user_list
       elsif params[:search_type]=="role"
-        user_list = User.where("user_type iLIKE ?","#{params[:search_word]}%")
+        user_list = User.where("user_type iLIKE ?","%#{params[:search_word]}%")
         render :status => 200, :json => user_list
       end
     else

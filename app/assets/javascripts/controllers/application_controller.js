@@ -5,36 +5,40 @@
 Deerfield.AuthController = Ember.ObjectController.extend({
     currentUser: null,
     isAuthenticated: Em.computed.notEmpty("currentUser.email"),
-  register: function(route) {
-      var me;
-      me = this;
-      return Em.$.ajax({
-        url: Deerfield.urls.register,
-        type: "POST",
-        data: {
-          "role": $("#role").val(),
-          "company_name" : $("#company_name").val(),
-          "user[first_name]": route.currentModel.first_name,
-          "user[email]": route.currentModel.email,
-          "user[password]": route.currentModel.password,
-          "user[password_confirmation]": route.currentModel.password_confirmation
+    register: function(route) {
+        var me;
+        me = this;
+        var decision =validate_registration_form();
+        if (decision){
+            return Em.$.ajax({
+            url: Deerfield.urls.register,
+            type: "POST",
+            data: {
+                "role": $("#role").val(),
+                "company_name" : $("#company_name").val(),
+                "user[first_name]": route.currentModel.first_name,
+                "user[email]": route.currentModel.email,
+                "user[password]": route.currentModel.password,
+                "user[password_confirmation]": $("#password_confirmation").val()
+            },
+            success: function(data) {
+                if (me.get("currentUser.email"))
+                {
+                    alert(data.s)
+                    return route.transitionTo('user_management');    
+                }
+                else{
+                    alert(data.s)
+                    return route.transitionTo('home');    
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                return route.controllerFor('registration').set("errorMsg", "Sorry! try again ");
+            }
+        });
+        }
 
-      },
-      success: function(data) {
-        if (me.get("currentUser"))
-        {
-            return route.transitionTo('user_management');    
-        }
-        else{
-            return route.transitionTo('home');    
-        }
-        
-},
-error: function(jqXHR, textStatus, errorThrown) {
-  return route.controllerFor('registration').set("errorMsg", "That email/password combo didn't work.  Please try again");
-}
-});
-  },
+    },
   logout: function() {
       var me;
       log.info("Logging out...");
@@ -199,8 +203,7 @@ Deerfield.RoleManagementController = Ember.ArrayController.extend({
             }
         })
     }
-  }
-
+ }
 });
 Deerfield.UserManagementController = Ember.ObjectController.extend({
  needs: ['auth'],
@@ -500,42 +503,41 @@ Deerfield.LoginController = Ember.ObjectController.extend({
     attemptedTransition: null,
     actions: {
         login: function(route) {
-          var me;
-          me = this;
-          return $.ajax({
-            url: Deerfield.urls.login,
-            type: "POST",
-            data: {
-              "user[email]": $("#email").val(),
-              "user[password]": $("#password").val(),
-              "user[remember_me]": $("#remember_me").val()
-          },
-          success: function(data) {
-            var attemptedTransition= me.get('attemptedTransition');
-            if (attemptedTransition){
-                me.set('user', data.user);
-                attemptedTransition.retry();
-                me.set('attemptedTransition',null);
-            }
-            else
-            {   
-                me.set('user', data.user);
-               return me.transitionTo('home'); 
-            }            
+        var me;
+        me = this;
+        var decision= validate_login_form();
+        if (decision)
+        {  
+            return $.ajax({
+                url: Deerfield.urls.login,
+                type: "POST",
+                data: {
+                    "user[email]": $("#email").val(),
+                    "user[password]": $("#password").val(),
+                    "user[remember_me]": $("#remember_me").val()
+                },
+                success: function(data) {
+                var attemptedTransition= me.get('attemptedTransition');
+                if (attemptedTransition){
+                    me.set('user', data.user);
+                    attemptedTransition.retry();
+                    me.set('attemptedTransition',null);
+                }
+                else
+                {   
+                    me.set('user', data.user);
+                    return me.transitionTo('home'); 
+                }            
             
-       },
-       error: function(jqXHR, textStatus, errorThrown) {
-          if (jqXHR.status === 401) {
-            return route.controllerFor('login').set("errorMsg", "That email/password combo didn't work.  Please try again");
-        } else if (jqXHR.status === 406) {
-            return route.controllerFor('login').set("errorMsg", "Request not acceptable (406):  make sure Devise responds to JSON.");
-        } else {
-            return p("Login Error: " + jqXHR.status + " | " + errorThrown);
+                },
+                error: function(error,data) {
+                    var obj = $.parseJSON(error.responseText);
+                    alert(obj.error)
+                }   
+            });
         }
     }
+  }
 });
 
-},
-}
-});
 
